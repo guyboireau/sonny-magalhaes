@@ -1,0 +1,195 @@
+---
+// DesignSwitcher — Outil de démo pour basculer entre les variantes A–G
+---
+
+<div class="ds-container" id="design-switcher">
+  <button class="ds-toggle" aria-label="Paramètres de design">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+    <span>Démo Design</span>
+  </button>
+
+  <div class="ds-panel">
+    <div class="ds-grid">
+      <button class="ds-btn active" data-variant="A">
+        <span class="ds-btn-mark">A</span>
+        <span class="ds-btn-label">Classique</span>
+      </button>
+      <button class="ds-btn" data-variant="B">
+        <span class="ds-btn-mark">B</span>
+        <span class="ds-btn-label">Clean</span>
+      </button>
+      <button class="ds-btn" data-variant="C">
+        <span class="ds-btn-mark">C</span>
+        <span class="ds-btn-label">Édito</span>
+      </button>
+      <button class="ds-btn ds-btn-d" data-variant="D">
+        <span class="ds-btn-mark">D</span>
+        <span class="ds-btn-label">Forge</span>
+      </button>
+      <button class="ds-btn ds-btn-e" data-variant="E">
+        <span class="ds-btn-mark">E</span>
+        <span class="ds-btn-label">Le Salon</span>
+      </button>
+      <button class="ds-btn ds-btn-f" data-variant="F">
+        <span class="ds-btn-mark">F</span>
+        <span class="ds-btn-label">Stade</span>
+      </button>
+      <button class="ds-btn ds-btn-g" data-variant="G">
+        <span class="ds-btn-mark">G</span>
+        <span class="ds-btn-label">Verveine</span>
+      </button>
+      <button class="ds-btn ds-btn-h" data-variant="H">
+        <span class="ds-btn-mark">H</span>
+        <span class="ds-btn-label">ABPM</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ALL_VARIANTS = ['a','b','c','d','e','f','g','h'];
+  const switcher = document.getElementById('design-switcher');
+  const toggle = switcher?.querySelector('.ds-toggle');
+  const btns = switcher?.querySelectorAll('.ds-btn');
+
+  // Toggle Panel
+  toggle?.addEventListener('click', () => {
+    switcher?.classList.toggle('open');
+  });
+
+  // Switch Variant
+  btns?.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const variant = btn.getAttribute('data-variant');
+      if (!variant) return;
+
+      // Update UI
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Update Body Class
+      document.body.classList.remove(...ALL_VARIANTS.map(v => `v-${v}`));
+      document.body.classList.add(`v-${variant.toLowerCase()}`);
+
+      // Close overlay if open
+      document.getElementById('overlay-nav')?.classList.remove('open');
+      document.body.style.overflow = '';
+
+      switcher?.classList.remove('open');
+      localStorage.setItem('demo-variant', variant);
+    });
+  });
+
+  // Close panel on outside click
+  document.addEventListener('click', (e) => {
+    if (switcher && !switcher.contains(e.target as Node)) {
+      switcher.classList.remove('open');
+    }
+  });
+
+  // Load Initial State
+  const savedVariant = localStorage.getItem('demo-variant') || 'A';
+
+  document.body.classList.remove(...ALL_VARIANTS.map(v => `v-${v}`));
+  document.body.classList.add(`v-${savedVariant.toLowerCase()}`);
+
+  btns?.forEach(btn => {
+    if (btn.getAttribute('data-variant') === savedVariant) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+</script>
+
+<style>
+  .ds-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .ds-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    min-height: 44px;
+    background: #1a1916;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+  .ds-toggle:hover { transform: scale(1.05); }
+  .ds-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  .ds-panel {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    width: min(240px, calc(100vw - 48px));
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .ds-container.open .ds-panel {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .ds-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+  }
+
+  .ds-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 4px;
+    min-height: 44px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .ds-btn:hover { background: #f3f4f6; }
+  .ds-btn:focus-visible { outline: 2px solid #374151; outline-offset: 2px; }
+  .ds-btn.active { border-color: #374151; background: #f3f4f6; }
+
+  /* Active colors per variant */
+  .ds-btn-d.active { background: #dce3ea; border-color: #1c2d45; color: #1c2d45; }
+  .ds-btn-e.active { background: #e4ebf4; border-color: #1c3458; color: #1c3458; }
+  .ds-btn-f.active { background: #dde6ff; border-color: #3a63ff; color: #3a63ff; }
+  .ds-btn-g.active { background: #b8dce8; border-color: #0e92b8; color: #0e92b8; }
+  .ds-btn-h.active { background: #e0f2fe; border-color: #0ea5e9; color: #0ea5e9; }
+
+  .ds-btn-mark {
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .ds-btn-label {
+    font-size: 9px;
+    font-weight: 500;
+  }
+</style>

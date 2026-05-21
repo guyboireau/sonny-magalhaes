@@ -1,0 +1,616 @@
+---
+// Services — 3 variantes
+// A : Grille 3 colonnes avec cards icône
+// B : Liste verticale avec gros numéros + tags
+// C : Accordéon (expand)
+import { variants, services } from '../config/site';
+
+const v = variants.services;
+
+const icons: Record<string, string> = {
+  scale:    `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l9-4 9 4M3 6v12l9 4 9-4V6M12 2v18"/>`,
+  building: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21h18M3 7h18M3 14h18M5 7V5h14v2M7 21V14h10v7"/>`,
+  shield:   `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3l8 4v4c0 5-3.5 9-8 10-4.5-1-8-5-8-10V7l8-4z"/>`,
+  star:     `<polygon stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/>`,
+  check:    `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 6L9 17l-5-5"/>`,
+  arrow:    `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7 7 7-7 7"/>`,
+};
+---
+
+<div id="services">
+  {/* ── Variante A : grille 3 colonnes ─────────────────────────────────── */}
+  <section class="section v-only-a">
+    <div class="container">
+      <div class="srv-a-head">
+        <p class="eyebrow">{services.eyebrow}</p>
+        <h2 class="srv-h2">{services.title}</h2>
+        <p class="srv-sub">{services.subtitle}</p>
+      </div>
+      <div class="srv-a-grid">
+        {services.items.map((item) => (
+          <article class="card srv-a-card">
+            <div class="srv-a-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" set:html={icons[item.icon] ?? icons.star} />
+            </div>
+            <h3 class="srv-a-title">{item.title}</h3>
+            <p class="srv-a-text">{item.text}</p>
+            <a href="#contact" class="srv-a-link">{item.link}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante B : liste numérotée ────────────────────────────────────── */}
+  <section class="section section-alt v-only-b">
+    <div class="container">
+      <div class="srv-b-head">
+        <p class="eyebrow">{services.eyebrow}</p>
+        <h2 class="srv-h2">{services.title}</h2>
+      </div>
+      <div class="srv-b-list">
+        {services.items.map((item, i) => (
+          <article class="srv-b-row">
+            <span class="srv-b-num" aria-hidden="true">0{i + 1}</span>
+            <div class="srv-b-body">
+              <div class="srv-b-titlerow">
+                <h3 class="srv-b-title">{item.title}</h3>
+                {item.tag && <span class="srv-b-tag">{item.tag}</span>}
+              </div>
+              <p class="srv-b-text">{item.text}</p>
+            </div>
+            <a href="#contact" class="btn btn-ghost srv-b-link" aria-label={`En savoir plus : ${item.title}`}>→</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante C : accordéon (expand) ─────────────────────────────────── */}
+  <section class="section v-only-c">
+    <div class="container">
+      <div class="srv-c-head">
+        <p class="eyebrow">{services.eyebrow}</p>
+        <h2 class="srv-h2">{services.title}</h2>
+      </div>
+      <div class="srv-c-list">
+        {services.items.map((item, i) => (
+          <div class={`srv-c-item ${i === 0 ? 'open' : ''}`}>
+            <button
+              class="srv-c-trigger"
+              aria-expanded={i === 0 ? 'true' : 'false'}
+              aria-controls={`srv-panel-${i}`}
+            >
+              <div class="srv-c-trigger-left">
+                <span class="srv-c-num eyebrow">0{i + 1}</span>
+                <h3 class="srv-c-title">{item.title}</h3>
+              </div>
+              <span class="srv-c-icon">{i === 0 ? '–' : '+'}</span>
+            </button>
+            <div
+              class="srv-c-panel"
+              id={`srv-panel-${i}`}
+              hidden={i !== 0}
+            >
+              <div class="srv-c-content">
+                <div class="srv-c-text-wrap">
+                  <p class="srv-c-text">{item.text}</p>
+                  <a href="#contact" class="btn btn-outline btn-sm">Voir un cas →</a>
+                </div>
+                {item.features && (
+                  <ul class="srv-c-features">
+                    {item.features.map(f => (
+                      <li>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M20 6L9 17l-5-5"/>
+                        </svg>
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante E : Le Salon — liste numérotée éditoriale ─────────────── */}
+  <section class="section v-only-e srv-e">
+    <div class="container">
+      <div class="srv-e-grid">
+        <div class="srv-e-head">
+          <div class="srv-e-eyebrow">{services.eyebrow}</div>
+          <h2 class="srv-e-h2">{services.title}</h2>
+        </div>
+        <div class="srv-e-list">
+          {services.items.map((item, i) => (
+            <div class="srv-e-row">
+              <span class="srv-e-num">0{i + 1}</span>
+              <div class="srv-e-body">
+                <h3 class="srv-e-title">{item.title}</h3>
+                <p class="srv-e-text">{item.text}</p>
+              </div>
+              <span class="srv-e-arrow">↓ découvrir</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante F : Stade — grille cards bordered ───────────────────────── */}
+  <section class="section v-only-f srv-f">
+    <div class="container">
+      <div class="srv-f-head">
+        <div class="srv-f-eyebrow">{services.eyebrow}</div>
+        <h2 class="srv-f-h2">{services.title}</h2>
+      </div>
+      <div class="srv-f-grid">
+        {services.items.map((item, i) => (
+          <article class="srv-f-card">
+            <div class="srv-f-card-top">
+              <div class="srv-f-icon">◆</div>
+              <span class="srv-f-num">0{i + 1}</span>
+            </div>
+            <h3 class="srv-f-title">{item.title}</h3>
+            <p class="srv-f-text">{item.text}</p>
+            <a href="#contact" class="srv-f-link">En savoir plus →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante G : Verveine — cards rondes soft ───────────────────────── */}
+  <section class="section v-only-g srv-g">
+    <div class="container">
+      <div class="srv-g-head">
+        <div class="srv-g-eyebrow">{services.eyebrow}</div>
+        <h2 class="srv-g-h2">{services.title}</h2>
+      </div>
+      <div class="srv-g-grid">
+        {services.items.map((item, i) => (
+          <article class="srv-g-card">
+            <div class={`srv-g-icon ${i === 1 ? 'srv-g-icon-peach' : 'srv-g-icon-sage'}`}>
+              {['◯','✿','✦'][i]}
+            </div>
+            <h3 class="srv-g-title">{item.title}</h3>
+            <p class="srv-g-text">{item.text}</p>
+            <div class="srv-g-footer">
+              <span class="srv-g-tag">{item.tag || 'Découvrir'}</span>
+              <span class="srv-g-link">→</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante D : Forge / liste numérotée avec règles épaisses ──────── */}
+  <section class="section v-only-d srv-d">
+    <div class="container">
+      <div class="srv-d-head">
+        <h2 class="srv-d-h2">{services.title}</h2>
+        <p class="srv-d-sub">{services.subtitle}</p>
+      </div>
+      <div class="srv-d-list">
+        {services.items.map((item, i) => (
+          <div class="srv-d-row">
+            <span class="srv-d-num">0{i + 1}</span>
+            <div class="srv-d-body">
+              <h3 class="srv-d-title">{item.title}</h3>
+              <p class="srv-d-text">{item.text}</p>
+            </div>
+            {item.tag && <span class="srv-d-tag">{item.tag}</span>}
+            <a href="#contact" class="srv-d-link" aria-label={`En savoir plus : ${item.title}`}>VOIR →</a>
+          </div>
+        ))}
+        <div class="srv-d-rule"></div>
+      </div>
+    </div>
+  </section>
+ 
+  {/* ── Variante H : Artisan — Style ABPM Richard ─────────────────────────── */}
+  <section class="section v-only-h srv-h">
+    <div class="container">
+      <div class="srv-h-head">
+        <h2>{services.title}</h2>
+        <p>{services.subtitle}</p>
+      </div>
+      <div class="srv-h-grid">
+        {services.items.map((item) => (
+          <div class="srv-h-card">
+            {item.image && (
+              <div class="srv-h-image">
+                <img src={item.image} alt={item.title} loading="lazy" />
+              </div>
+            )}
+            <div class="srv-h-content">
+              <div class="srv-h-icon">
+                <i class="ph ph-wrench"></i>
+              </div>
+              <h3 class="srv-h-title">{item.title}</h3>
+              <p class="srv-h-text">{item.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+.srv-h2 {
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+  color: var(--ink); margin: 12px 0 16px;
+}
+.srv-sub { font-size: 16px; color: var(--inkSoft); line-height: 1.6; max-width: 56ch; }
+
+/* ─── A ───────────────────────────────────────────────────────────────── */
+.section.v-only-a { background: #f8fafc; }
+.srv-a-head { margin-bottom: 64px; text-align: center; }
+.srv-a-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.srv-a-card {
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.srv-a-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: var(--primaryColor);
+}
+.srv-a-icon-wrap {
+  width: 56px; height: 56px;
+  background: #eff6ff;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primaryColor);
+  margin-bottom: 28px;
+}
+.srv-a-title { font-size: 20px; font-weight: 700; color: var(--secondaryColor); margin-bottom: 16px; }
+.srv-a-text { font-size: 15.5px; color: #475569; line-height: 1.6; flex: 1; margin-bottom: 24px; }
+.srv-a-link {
+  font-size: 14px; font-weight: 600; color: var(--primaryColor);
+  display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s;
+  text-decoration: none;
+}
+.srv-a-link:hover { gap: 10px; }
+
+/* ─── B ───────────────────────────────────────────────────────────────── */
+.srv-b-head { margin-bottom: 48px; }
+.srv-b-list { display: flex; flex-direction: column; }
+.srv-b-row {
+  display: grid; grid-template-columns: 56px 1fr auto;
+  gap: 24px; align-items: center;
+  padding: 28px 0; border-top: 1px solid var(--lineSoft);
+}
+.srv-b-row:last-child { border-bottom: 1px solid var(--lineSoft); }
+.srv-b-num {
+  font-family: var(--fontMono); font-size: 28px; color: var(--lineSoft);
+  letter-spacing: -0.02em; align-self: flex-start; padding-top: 4px;
+}
+.srv-b-body { display: flex; flex-direction: column; gap: 8px; }
+.srv-b-titlerow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.srv-b-title { font-size: 18px; font-weight: 500; color: var(--ink); }
+.srv-b-tag {
+  font-family: var(--fontMono); font-size: 10px; padding: 3px 8px;
+  border-radius: 100px; background: var(--lineSoft); color: var(--inkSoft);
+}
+.srv-b-text { font-size: 14px; color: var(--inkSoft); line-height: 1.65; max-width: 64ch; }
+.srv-b-link { font-size: 18px; color: var(--inkFaint); transition: color 0.15s; }
+.srv-b-link:hover { color: var(--ink); }
+
+/* ─── C ───────────────────────────────────────────────────────────────── */
+.srv-c-head { margin-bottom: 48px; }
+.srv-c-list { display: flex; flex-direction: column; }
+.srv-c-item { border-top: 1px solid var(--lineSoft); }
+.srv-c-item:last-child { border-bottom: 1px solid var(--lineSoft); }
+.srv-c-item.open { background: var(--paper); border-radius: var(--radius-md); border: 1px solid var(--lineSoft); margin: 8px 0; }
+.srv-c-trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 20px; background: none; border: none; cursor: pointer;
+}
+.srv-c-trigger-left { display: flex; align-items: center; gap: 24px; }
+.srv-c-num { color: var(--inkFaint); }
+.srv-c-title { font-size: 18px; font-weight: 500; color: var(--ink); margin: 0; }
+.srv-c-icon { font-size: 24px; color: var(--ink); font-family: var(--sans); }
+.srv-c-panel { padding: 0 20px 32px 76px; }
+.srv-c-content { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+.srv-c-text { font-size: 15px; color: var(--inkSoft); line-height: 1.65; margin-bottom: 24px; }
+.srv-c-features { display: flex; flex-direction: column; gap: 12px; }
+.srv-c-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink); }
+.srv-c-features svg { color: var(--ink); flex-shrink: 0; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .srv-a-grid { grid-template-columns: 1fr; }
+  .srv-c-content { grid-template-columns: 1fr; gap: 24px; }
+  .srv-c-panel { padding-left: 20px; }
+  .srv-b-row { grid-template-columns: 44px 1fr auto; gap: 16px; }
+}
+@media (max-width: 600px) {
+  .srv-b-row { grid-template-columns: 1fr auto; }
+  .srv-b-num { display: none; }
+}
+
+/* ─── E : Le Salon Naval ─────────────────────────────────────────────── */
+.srv-e { background: #f0f4f8; }
+.srv-e-grid { display: grid; grid-template-columns: 240px 1fr; gap: 64px; }
+.srv-e-head { padding-top: 8px; }
+.srv-e-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #2d6ac4; letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.srv-e-h2 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 400; font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.05; letter-spacing: -0.02em; color: #1c3458; margin: 0;
+}
+.srv-e-list { display: flex; flex-direction: column; }
+.srv-e-row {
+  display: grid; grid-template-columns: 72px 1fr 100px;
+  gap: 28px; padding: 28px 0; align-items: baseline;
+  border-bottom: 1px solid #b8ccdd;
+}
+.srv-e-row:first-child { border-top: 1px solid #b8ccdd; }
+.srv-e-num {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic; font-size: 36px; color: #4d7eb8;
+}
+.srv-e-title {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 400; font-size: 26px; color: #1c3458; margin: 0 0 6px;
+}
+.srv-e-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; color: #3d5880; margin: 0; line-height: 1.6;
+}
+.srv-e-arrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #6e88a8; letter-spacing: 0.1em; text-align: right;
+}
+@media (max-width: 900px) { .srv-e-grid { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 768px) {
+  .srv-e-row { grid-template-columns: 44px 1fr; gap: 16px; }
+  .srv-e-arrow { display: none; }
+}
+
+/* ─── F : Stade ───────────────────────────────────────────────────────── */
+.srv-f { background: #fafbfc; }
+.srv-f-head { margin-bottom: 48px; }
+.srv-f-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px; color: #3a63ff; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.srv-f-h2 {
+  font-family: 'Geist', sans-serif; font-weight: 600;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.05; letter-spacing: -0.025em; color: #0a0e1a; margin: 0;
+}
+.srv-f-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.srv-f-card {
+  background: #fff; border: 1px solid #e3e7ee; border-radius: 12px;
+  padding: 24px; display: flex; flex-direction: column;
+}
+.srv-f-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.srv-f-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: #dde6ff; color: #3a63ff;
+  display: grid; place-items: center; font-size: 14px;
+}
+.srv-f-num { font-family: 'Geist Mono', monospace; font-size: 11px; color: #7a8195; }
+.srv-f-title { font-family: 'Geist', sans-serif; font-weight: 600; font-size: 17px; color: #0a0e1a; margin: 0 0 8px; }
+.srv-f-text { font-family: 'Geist', sans-serif; font-size: 14px; color: #3d4458; margin: 0; flex: 1; line-height: 1.5; }
+.srv-f-link { font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 500; color: #3a63ff; margin-top: 16px; text-decoration: none; }
+@media (max-width: 900px) { .srv-f-grid { grid-template-columns: 1fr; } }
+
+/* ─── G : Vague Aqua ──────────────────────────────────────────────────── */
+.srv-g { background: #e8f4f8; }
+.srv-g-head { text-align: center; margin-bottom: 48px; }
+.srv-g-eyebrow {
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  font-size: 13px; color: #0e92b8; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.srv-g-h2 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.1; letter-spacing: -0.025em; color: #1c3d5a; margin: 0;
+}
+.srv-g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.srv-g-card {
+  background: #f0f8fb; border-radius: 28px;
+  padding: 28px; display: flex; flex-direction: column;
+  border: 1px solid transparent;
+}
+.srv-g-card:nth-child(2) { border-color: #7ab8d0; }
+.srv-g-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #b8dce8; color: #1c3d5a;
+  display: grid; place-items: center; font-size: 24px;
+  margin-bottom: 20px;
+}
+.srv-g-icon-peach { background: #c8e8f4; }
+.srv-g-title {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500;
+  font-size: 24px; color: #1c3d5a; margin: 0 0 10px; letter-spacing: -0.02em;
+}
+.srv-g-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: #2d5a7a; margin: 0; flex: 1; line-height: 1.6;
+}
+.srv-g-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 16px; margin-top: 20px;
+  border-top: 1px solid #7ab8d0;
+}
+.srv-g-tag {
+  font-family: 'DM Sans', sans-serif; font-size: 12px; color: #4d8099;
+}
+.srv-g-link { font-size: 14px; font-weight: 500; color: #0e92b8; }
+@media (max-width: 900px) { .srv-g-grid { grid-template-columns: 1fr; } }
+
+/* ─── D : Forge Industrial ───────────────────────────────────────────── */
+.srv-d { background: #dce3ea; }
+.srv-d-head { margin-bottom: 56px; }
+.srv-d-h2 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 0.95; letter-spacing: -0.04em;
+  text-transform: uppercase; color: #1c2d45; margin: 0 0 20px;
+}
+.srv-d-sub {
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px; color: #4a6888; max-width: 56ch; margin: 0;
+}
+.srv-d-list { display: flex; flex-direction: column; }
+.srv-d-row {
+  display: grid; grid-template-columns: 100px 1fr auto auto;
+  gap: 28px; padding: 28px 0; align-items: baseline;
+  border-top: 3px solid #1c2d45;
+}
+.srv-d-rule { height: 3px; background: #1c2d45; }
+.srv-d-num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 52px; line-height: 0.85; color: #e67e22;
+}
+.srv-d-body { display: flex; flex-direction: column; gap: 8px; }
+.srv-d-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 22px; letter-spacing: -0.02em;
+  text-transform: uppercase; color: #1c2d45; margin: 0;
+}
+.srv-d-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px; color: #4a6888; line-height: 1.6; margin: 0;
+}
+.srv-d-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #6a8099; letter-spacing: 0.12em;
+  text-transform: uppercase; align-self: center; white-space: nowrap;
+}
+.srv-d-link {
+  font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.08em; color: #4a6888;
+  text-decoration: none; align-self: center; white-space: nowrap;
+  transition: color 0.15s;
+}
+.srv-d-link:hover { color: #e67e22; }
+@media (max-width: 768px) {
+  .srv-d-row { grid-template-columns: 56px 1fr; gap: 16px; }
+  .srv-d-tag, .srv-d-link { display: none; }
+}
+ 
+/* ─── Variante H : Artisan — Style ABPM Richard ─────────────────────────── */
+.srv-h { padding: 6rem 0; }
+.srv-h-head { text-align: center; margin-bottom: 4rem; }
+.srv-h-head h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--ink); }
+.srv-h-head p { font-size: 1.125rem; color: var(--inkSoft); }
+.srv-h-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+.srv-h-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--bgCard);
+  transition: var(--transition);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.srv-h-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+.srv-h-image {
+  height: 200px;
+  overflow: hidden;
+  background: var(--lineSoft);
+}
+.srv-h-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.srv-h-card:hover .srv-h-image img {
+  transform: scale(1.05);
+}
+.srv-h-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.srv-h-icon {
+  width: 48px; height: 48px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.srv-h-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+}
+.srv-h-text {
+  font-size: 0.9375rem;
+  color: var(--inkSoft);
+  line-height: 1.6;
+  flex: 1;
+}
+@media (max-width: 768px) {
+  .srv-h-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+document.querySelectorAll<HTMLButtonElement>('.srv-c-trigger').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.srv-c-item');
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    const panelId = btn.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+    const icon = btn.querySelector('.srv-c-icon');
+
+    // Close others
+    document.querySelectorAll('.srv-c-item').forEach(other => {
+      if (other === item) return;
+      other.classList.remove('open');
+      const otherBtn = other.querySelector('.srv-c-trigger');
+      const otherPanelId = otherBtn?.getAttribute('aria-controls');
+      const otherPanel = otherPanelId ? document.getElementById(otherPanelId) : null;
+      otherBtn?.setAttribute('aria-expanded', 'false');
+      if (otherPanel) otherPanel.hidden = true;
+      const otherIcon = otherBtn?.querySelector('.srv-c-icon');
+      if (otherIcon) otherIcon.textContent = '+';
+    });
+
+    if (item && panel && icon) {
+      const isOpening = !expanded;
+      btn.setAttribute('aria-expanded', String(isOpening));
+      panel.hidden = !isOpening;
+      item.classList.toggle('open', isOpening);
+      icon.textContent = isOpening ? '–' : '+';
+    }
+  });
+});
+</script>

@@ -1,0 +1,287 @@
+---
+// Contact — formulaire propre avec validation client + infos business
+import { contact, business } from '../config/site';
+---
+
+<section class="section" id="contact">
+  <div class="container cnt-inner">
+    <div class="cnt-info">
+      <p class="eyebrow">{contact.eyebrow}</p>
+      <h2 class="cnt-h2">{contact.title}</h2>
+      <p class="cnt-sub">{contact.subtitle}</p>
+
+      <div class="cnt-details">
+        <a href={`mailto:${business.email}`} class="cnt-detail">
+          <span class="cnt-detail-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </span>
+          <span>{business.email}</span>
+        </a>
+        <a href={`tel:${business.phone.replace(/\s/g, '')}`} class="cnt-detail">
+          <span class="cnt-detail-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.94h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/>
+            </svg>
+          </span>
+          <span>{business.phone}</span>
+        </a>
+        {(business.address.street) && (
+          <div class="cnt-detail">
+            <span class="cnt-detail-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <span>{business.address.street}, {business.address.zip} {business.address.city}</span>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <div class="cnt-form-wrap">
+      <form class="cnt-form" id="contact-form" novalidate>
+        <div class="cnt-field">
+          <label for="cnt-type" class="cnt-label">Type de demande *</label>
+          <select id="cnt-type" name="type" class="cnt-input cnt-select" required>
+            <option value="">Sélectionnez…</option>
+            {contact.formTypes.map((t) => (
+              <option value={t}>{t}</option>
+            ))}
+          </select>
+          <span class="cnt-error" aria-live="polite"></span>
+        </div>
+
+        <div class="cnt-row cnt-row-2">
+          <div class="cnt-field">
+            <label for="cnt-nom" class="cnt-label">Nom *</label>
+            <input type="text" id="cnt-nom" name="nom" class="cnt-input"
+                   placeholder="Sophie Martin" required autocomplete="name" />
+            <span class="cnt-error" aria-live="polite"></span>
+          </div>
+          <div class="cnt-field">
+            <label for="cnt-phone" class="cnt-label">Téléphone *</label>
+            <input type="tel" id="cnt-phone" name="telephone" class="cnt-input"
+                   placeholder="06 00 00 00 00" required autocomplete="tel" />
+            <span class="cnt-error" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="cnt-row cnt-row-2">
+          <div class="cnt-field">
+            <label for="cnt-email" class="cnt-label">Email</label>
+            <input type="email" id="cnt-email" name="email" class="cnt-input"
+                   placeholder="sophie@exemple.fr" autocomplete="email" />
+          </div>
+          <div class="cnt-field">
+            <label for="cnt-ville" class="cnt-label">Ville d'intervention</label>
+            <input type="text" id="cnt-ville" name="ville" class="cnt-input"
+                   placeholder="Paris, Lyon…" autocomplete="address-level2" />
+          </div>
+        </div>
+
+        <div class="cnt-field">
+          <label for="cnt-message" class="cnt-label">Description des travaux *</label>
+          <textarea id="cnt-message" name="message" class="cnt-input cnt-textarea"
+                    placeholder="Décrivez vos travaux : surface, type d'intervention, urgence…"
+                    rows="5" required></textarea>
+          <span class="cnt-error" aria-live="polite"></span>
+        </div>
+
+        <!-- Honeypot : caché aux utilisateurs, visible aux bots -->
+        <div class="cnt-honeypot" aria-hidden="true">
+          <input type="text" name="website" id="cnt-website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="cnt-footer">
+          <button type="submit" class="btn btn-primary btn-lg cnt-submit">
+            Envoyer la demande
+          </button>
+          <p class="cnt-privacy eyebrow">Vos données ne sont jamais revendues.</p>
+        </div>
+        <div class="cnt-success" id="cnt-success" hidden aria-live="polite">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          {contact.successMessage}
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+const form = document.getElementById('contact-form') as HTMLFormElement | null;
+const successEl = document.getElementById('cnt-success');
+
+function validateField(input: HTMLInputElement | HTMLTextAreaElement): boolean {
+  const field = input.closest('.cnt-field');
+  const errorEl = field?.querySelector<HTMLElement>('.cnt-error');
+  let msg = '';
+
+  if (input.required && !input.value.trim()) {
+    msg = 'Ce champ est requis.';
+  } else if (input.type === 'email' && input.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+    msg = 'Email invalide.';
+  }
+
+  if (errorEl) errorEl.textContent = msg;
+  input.setAttribute('data-invalid', msg ? 'true' : 'false');
+  return !msg;
+}
+
+form?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea').forEach(input => {
+  input.addEventListener('blur', () => validateField(input));
+  input.addEventListener('input', () => {
+    if (input.getAttribute('data-invalid') === 'true') validateField(input);
+  });
+});
+
+form?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]'));
+  const valid = inputs.map(validateField).every(Boolean);
+  if (!valid) { inputs.find(i => i.getAttribute('data-invalid') === 'true')?.focus(); return; }
+
+  const submitBtn = form.querySelector<HTMLButtonElement>('.cnt-submit');
+  if (submitBtn) { submitBtn.textContent = 'Envoi…'; submitBtn.disabled = true; }
+
+  try {
+    const res = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      if (successEl) successEl.hidden = false;
+    } else {
+      throw new Error('Erreur serveur');
+    }
+  } catch {
+    if (submitBtn) { submitBtn.textContent = 'Réessayer'; submitBtn.disabled = false; }
+  }
+});
+</script>
+
+<style>
+/* ─── Honeypot (caché) ──────────────────────────────────────────────── */
+.cnt-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────── */
+.cnt-inner {
+  display: grid; grid-template-columns: 1fr 2fr;
+  gap: clamp(48px, 8vw, 100px); align-items: start;
+}
+.cnt-h2 {
+  font-size: clamp(26px, 3.5vw, 40px); font-weight: 600;
+  letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin: 12px 0 16px;
+}
+.cnt-sub { font-size: 15px; color: var(--inkSoft); line-height: 1.65; margin-bottom: 36px; }
+
+/* Infos */
+.cnt-details { display: flex; flex-direction: column; gap: 14px; }
+.cnt-detail {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; color: var(--inkSoft);
+  transition: color 0.15s;
+}
+.cnt-detail:hover { color: var(--ink); }
+.cnt-detail-icon {
+  width: 32px; height: 32px; border-radius: var(--radius-sm);
+  background: var(--lineSoft); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; color: var(--ink);
+}
+
+/* Form wrapper */
+.cnt-form-wrap {
+  background: var(--bgCard); border: 1px solid var(--lineSoft);
+  border-radius: var(--radius-lg); padding: clamp(24px, 4vw, 40px);
+}
+.cnt-form { display: flex; flex-direction: column; gap: 20px; }
+.cnt-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cnt-field { display: flex; flex-direction: column; gap: 6px; }
+.cnt-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+.cnt-input {
+  width: 100%; padding: 11px 14px; font-size: 14px; font-family: var(--sans);
+  color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: var(--radius-md);
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+}
+.cnt-input::placeholder { color: var(--inkFaint); }
+.cnt-input:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(26,25,22,.06); }
+.cnt-input[data-invalid="true"] { border-color: #e05252; }
+.cnt-textarea { resize: vertical; min-height: 120px; line-height: 1.55; }
+.cnt-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235a574e' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px; cursor: pointer; }
+.cnt-error { font-size: 12px; color: #e05252; min-height: 16px; }
+
+.cnt-footer { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.cnt-privacy { margin: 0; }
+
+/* Succès */
+.cnt-success {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-radius: var(--radius-md);
+  background: #f0faf4; border: 1px solid #b9e6cc;
+  color: #1e6a3c; font-size: 14px; font-weight: 500;
+}
+
+/* ─── Overrides par direction ────────────────────────────────────────── */
+
+/* D : Forge Industrial */
+body.v-d .cnt-h2 { font-family: 'Archivo Black', sans-serif; text-transform: uppercase; letter-spacing: -0.02em; color: #1c2d45; }
+body.v-d .cnt-form-wrap { background: #dce3ea; border: 1.5px solid #1c2d45; border-radius: 0; }
+body.v-d .cnt-input { background: #e8ecf0; border-color: #4a6888; border-radius: 0; }
+body.v-d .cnt-input:focus { border-color: #1c2d45; box-shadow: 0 0 0 3px rgba(28,45,69,.1); }
+body.v-d .cnt-label { font-family: 'Manrope', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #6a8099; }
+body.v-d .cnt-detail-icon { border-radius: 0; background: #1c2d45; color: #e8ecf0; }
+
+/* E : Le Salon Naval */
+body.v-e .cnt-h2 { font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(28px, 3.5vw, 44px); color: #1c3458; }
+body.v-e .cnt-form-wrap { background: #f8fafc; border-color: #b8ccdd; }
+body.v-e .cnt-input { background: #f0f4f8; border-color: #b8ccdd; }
+body.v-e .cnt-input:focus { border-color: #1c3458; box-shadow: 0 0 0 3px rgba(28,52,88,.08); }
+body.v-e .cnt-detail-icon { background: #dbeafe; color: #1c3458; border-radius: 4px; }
+
+/* G : Vague Aqua */
+body.v-g .cnt-form-wrap { background: #f0f8fb; border-color: #7ab8d0; border-radius: 28px; padding: clamp(28px, 4vw, 48px); }
+body.v-g .cnt-input { background: #e8f4f8; border-color: #7ab8d0; border-radius: 14px; }
+body.v-g .cnt-input:focus { border-color: #0e92b8; box-shadow: 0 0 0 3px rgba(14,146,184,.12); }
+body.v-g .cnt-detail-icon { background: #b8dce8; color: #1c3d5a; border-radius: 50%; }
+body.v-g .cnt-h2 { color: #1c3d5a; }
+
+/* H : ABPM Blue */
+body.v-h .cnt-form-wrap { border-color: #dbeafe; box-shadow: 0 2px 20px rgba(29,98,200,.07); }
+body.v-h .cnt-input:focus { border-color: #1d62c8; box-shadow: 0 0 0 3px rgba(29,98,200,.1); }
+body.v-h .cnt-detail-icon { background: #dbeafe; color: #1d62c8; }
+body.v-h .cnt-h2 { color: #0f172a; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cnt-inner { grid-template-columns: 1fr; }
+  .cnt-info { display: none; }
+}
+@media (max-width: 600px) {
+  .cnt-row-2 { grid-template-columns: 1fr; }
+  .cnt-footer { flex-direction: column; align-items: stretch; }
+  .cnt-submit { justify-content: center; }
+  .cnt-input { font-size: 16px; }
+}
+</style>

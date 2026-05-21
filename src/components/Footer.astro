@@ -1,0 +1,531 @@
+---
+// Footer — 3 variantes
+// A : 4 colonnes classique (brand + liens + légal + contact)
+// B : Gros logo + minimal (brand seul + liens horizontal + baseline)
+// C : Colonne unique éditoriale
+import { variants, footer, business } from '../config/site';
+
+const v = variants.footer;
+const year = new Date().getFullYear();
+---
+
+{/* ── Variante A : 4 colonnes ────────────────────────────────────────── */}
+<footer class="ftr ftr-a v-only-a" id="footer-a">
+  <div class="container ftr-a-grid">
+    <div class="ftr-brand">
+      <a href="/" class="logo">
+        <span class="logo-mark"></span>
+        <span class="logo-name">{business.name}</span>
+      </a>
+      <p class="ftr-desc">{footer.description}</p>
+      <div class="ftr-social">
+        {business.socialLinks.linkedin && (
+          <a href={business.socialLinks.linkedin} class="ftr-social-link" aria-label="LinkedIn" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+        )}
+        {business.socialLinks.instagram && (
+          <a href={business.socialLinks.instagram} class="ftr-social-link" aria-label="Instagram" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+            </svg>
+          </a>
+        )}
+      </div>
+    </div>
+
+    <div class="ftr-col">
+      <p class="eyebrow ftr-col-title">Site</p>
+      <ul>
+        {footer.links.map(l => (
+          <li><a href={l.href} class="ftr-link">{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="ftr-col">
+      <p class="eyebrow ftr-col-title">Légal</p>
+      <ul>
+        {footer.legal.map(l => (
+          <li><a href={l.href} class="ftr-link">{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="ftr-col">
+      <p class="eyebrow ftr-col-title">Contact</p>
+      <a href={`mailto:${business.email}`} class="ftr-link">{business.email}</a>
+      <a href={`tel:${business.phone.replace(/\s/g, '')}`} class="ftr-link">{business.phone}</a>
+      <address class="ftr-address">
+        {business.address.street}<br />
+        {business.address.zip} {business.address.city}
+      </address>
+    </div>
+  </div>
+
+  <div class="container ftr-bottom">
+    <p class="eyebrow">© {year} {business.name} · SIRET {business.siret}</p>
+    <p class="eyebrow" set:html={footer.madeBy} />
+  </div>
+</footer>
+
+{/* ── Variante B : gros logo + minimal ───────────────────────────────── */}
+<footer class="ftr ftr-b v-only-b" id="footer-b">
+  <div class="container ftr-b-inner">
+    <div class="ftr-b-top">
+      <a href="/" class="logo ftr-b-logo">
+        <span class="logo-mark ftr-b-mark"></span>
+        <span class="logo-name ftr-b-name">{business.name}</span>
+      </a>
+      <nav class="ftr-b-nav" aria-label="Navigation footer">
+        {footer.links.map(l => <a href={l.href} class="ftr-link">{l.label}</a>)}
+      </nav>
+    </div>
+    <div class="ftr-b-bottom">
+      <p class="eyebrow">© {year} {business.name}</p>
+      <div class="ftr-b-legal">
+        {footer.legal.map((l, i) => (
+          <>
+            <a href={l.href} class="ftr-link eyebrow">{l.label}</a>
+            {i < footer.legal.length - 1 && <span class="ftr-sep" aria-hidden="true">·</span>}
+          </>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{/* ── Variante C : colonne éditoriale ────────────────────────────────── */}
+<footer class="ftr ftr-c v-only-c" id="footer-c">
+  <div class="container ftr-c-inner">
+    <div class="ftr-c-top">
+      <a href="/" class="logo">
+        <span class="logo-mark"></span>
+        <span class="logo-name">{business.name}</span>
+      </a>
+      <p class="ftr-c-tagline">{business.tagline}</p>
+    </div>
+    <div class="ftr-c-nav-row">
+      {footer.links.map(l => <a href={l.href} class="ftr-link">{l.label}</a>)}
+      <span class="ftr-sep" aria-hidden="true">|</span>
+      {footer.legal.map(l => <a href={l.href} class="ftr-link ftr-link-faint">{l.label}</a>)}
+    </div>
+    <p class="eyebrow ftr-c-copy">
+      © {year} {business.name} · <span set:html={footer.madeBy} />
+    </p>
+  </div>
+</footer>
+
+{/* ── Variante E : Le Salon — Éditorial Sérifé ───────────────────────── */}
+<footer class="ftr ftr-e v-only-e" id="footer-e">
+  <div class="container ftr-e-inner">
+    <div class="ftr-e-top">
+      <a href="/" class="ftr-e-logo">{business.name}</a>
+      <p class="ftr-e-tagline">{business.tagline}</p>
+    </div>
+    <div class="ftr-e-nav-row">
+      {footer.links.map(l => <a href={l.href} class="ftr-link">{l.label}</a>)}
+      <span class="ftr-sep" aria-hidden="true">—</span>
+      {footer.legal.map(l => <a href={l.href} class="ftr-link ftr-link-faint">{l.label}</a>)}
+    </div>
+    <p class="ftr-e-copy">© {year} {business.name}</p>
+  </div>
+</footer>
+
+{/* ── Variante F : Stade — Minimal gros logo ─────────────────────────── */}
+<footer class="ftr ftr-f v-only-f" id="footer-f">
+  <div class="container ftr-f-inner">
+    <div class="ftr-f-top">
+      <a href="/" class="ftr-f-logo" aria-label="Accueil">
+        <span class="ftr-f-mark">◆</span>
+        <span class="ftr-f-name">{business.name}</span>
+      </a>
+      <nav class="ftr-f-nav" aria-label="Navigation footer">
+        {footer.links.map(l => <a href={l.href} class="ftr-link">{l.label}</a>)}
+      </nav>
+    </div>
+    <div class="ftr-f-bottom">
+      <p class="eyebrow">© {year} {business.name}</p>
+      <div class="ftr-b-legal">
+        {footer.legal.map((l, i) => (
+          <>
+            <a href={l.href} class="ftr-link eyebrow">{l.label}</a>
+            {i < footer.legal.length - 1 && <span class="ftr-sep" aria-hidden="true">·</span>}
+          </>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{/* ── Variante G : Verveine — Footer doux ─────────────────────────────── */}
+<footer class="ftr ftr-g v-only-g" id="footer-g">
+  <div class="container ftr-g-inner">
+    <div class="ftr-g-top">
+      <a href="/" class="ftr-g-logo">
+        <span class="ftr-g-dot" aria-hidden="true"></span>
+        {business.name}
+      </a>
+      <p class="ftr-g-tagline">{business.tagline}</p>
+    </div>
+    <div class="ftr-g-nav-row">
+      {footer.links.map(l => <a href={l.href} class="ftr-g-link">{l.label}</a>)}
+      <span class="ftr-sep" aria-hidden="true">|</span>
+      {footer.legal.map(l => <a href={l.href} class="ftr-g-link ftr-g-link-faint">{l.label}</a>)}
+    </div>
+    <p class="ftr-g-copy">© {year} {business.name}</p>
+  </div>
+</footer>
+
+{/* ── Variante D : Forge / Brutalist Warm ────────────────────────────── */}
+<footer class="ftr ftr-d v-only-d" id="footer-d">
+  <div class="ftr-d-inner container">
+    <div class="ftr-d-top">
+      <div class="ftr-d-brand">
+        <span class="ftr-d-name">{business.name}</span>
+        <span class="ftr-d-est">EST. 2012</span>
+      </div>
+      <nav class="ftr-d-nav" aria-label="Navigation footer">
+        {footer.links.map(l => <a href={l.href} class="ftr-d-link">{l.label.toUpperCase()}</a>)}
+      </nav>
+    </div>
+    <div class="ftr-d-bottom">
+      <div class="ftr-d-address">
+        <span class="ftr-d-stamp">{business.address.street.toUpperCase()} · {business.address.city.toUpperCase()}</span>
+        <span class="ftr-d-stamp">{business.phone}</span>
+      </div>
+      <div class="ftr-d-legal">
+        {footer.legal.map((l, i) => (
+          <>
+            <a href={l.href} class="ftr-d-legal-link">{l.label.toUpperCase()}</a>
+            {i < footer.legal.length - 1 && <span class="ftr-d-sep" aria-hidden="true">·</span>}
+          </>
+        ))}
+      </div>
+      <span class="ftr-d-stamp">© {year} {business.name.toUpperCase()}</span>
+    </div>
+  </div>
+</footer>
+ 
+{/* ── Variante H : Artisan — Style ABPM Richard ─────────────────────────── */}
+<footer class="ftr ftr-h v-only-h" id="footer-h">
+  <div class="container ftr-h-container">
+    <div class="ftr-h-main">
+      <div class="ftr-h-brand">
+        <div class="ftr-h-logo">
+          <i class="ph-fill ph-wrench"></i>
+          <span>{business.name}</span>
+        </div>
+        <p>{footer.description}</p>
+        <div class="ftr-h-contact">
+          <a href={`tel:${business.phone}`}><i class="ph ph-phone"></i> {business.phone}</a>
+          <a href={`mailto:${business.email}`}><i class="ph ph-envelope"></i> {business.email}</a>
+        </div>
+      </div>
+      <div class="ftr-h-nav">
+        <div class="ftr-h-col">
+          <h4>Navigation</h4>
+          {footer.links.map(l => <a href={l.href}>{l.label}</a>)}
+        </div>
+        <div class="ftr-h-col">
+          <h4>Légal</h4>
+          {footer.legal.map(l => <a href={l.href}>{l.label}</a>)}
+        </div>
+      </div>
+    </div>
+    <div class="ftr-h-bottom">
+      <p>© {year} {business.name}. Tous droits réservés.</p>
+      <p set:html={footer.madeBy} />
+    </div>
+  </div>
+</footer>
+
+<style>
+/* ─── Commun ─────────────────────────────────────────────────────────── */
+.ftr { background: var(--paper); border-top: 1px solid var(--lineSoft); }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 22px; height: 22px; background: var(--ink); border-radius: 4px; flex-shrink: 0; }
+.logo-name { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.ftr-link { font-size: 13.5px; color: var(--inkSoft); transition: color 0.15s; }
+.ftr-link:hover { color: var(--ink); }
+.ftr-link-faint { color: var(--inkFaint); }
+.ftr-sep { color: var(--line); font-size: 12px; }
+
+/* ─── A ───────────────────────────────────────────────────────────────── */
+.ftr-a-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px; padding: clamp(48px, 6vw, 72px) 0 clamp(40px, 5vw, 60px);
+}
+.ftr-brand { display: flex; flex-direction: column; gap: 16px; }
+.ftr-desc { font-size: 13.5px; color: var(--inkSoft); line-height: 1.6; max-width: 28ch; margin: 0; }
+.ftr-social { display: flex; gap: 10px; }
+.ftr-social-link {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid var(--line); color: var(--inkFaint);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.ftr-social-link:hover { border-color: var(--ink); color: var(--ink); }
+.ftr-col { display: flex; flex-direction: column; gap: 12px; }
+.ftr-col ul { display: flex; flex-direction: column; gap: 10px; }
+.ftr-col-title { margin-bottom: 2px; }
+.ftr-address { font-style: normal; font-size: 13px; color: var(--inkFaint); line-height: 1.5; }
+.ftr-bottom {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 20px 0; border-top: 1px solid var(--lineSoft);
+  flex-wrap: wrap;
+}
+
+/* ─── B ───────────────────────────────────────────────────────────────── */
+.ftr-b-inner { padding: clamp(36px, 5vw, 56px) 0; display: flex; flex-direction: column; gap: 32px; }
+.ftr-b-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.ftr-b-logo { gap: 14px; }
+.ftr-b-mark { width: 32px; height: 32px; border-radius: 6px; }
+.ftr-b-name { font-size: 18px; }
+.ftr-b-nav { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.ftr-b-bottom {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap; border-top: 1px solid var(--lineSoft); padding-top: 20px;
+}
+.ftr-b-legal { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* ─── C ───────────────────────────────────────────────────────────────── */
+.ftr-c-inner {
+  padding: clamp(48px, 6vw, 72px) 0 clamp(32px, 4vw, 48px);
+  display: flex; flex-direction: column; gap: 28px;
+}
+.ftr-c-top { display: flex; flex-direction: column; gap: 8px; }
+.ftr-c-tagline { font-family: var(--fontMono); font-size: 12px; color: var(--inkFaint); margin: 0; }
+.ftr-c-nav-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--lineSoft); padding-top: 24px; }
+.ftr-c-copy { margin: 0; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .ftr-a-grid { grid-template-columns: 1fr 1fr; }
+  .ftr-brand { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+  .ftr-desc { max-width: 100%; }
+}
+@media (max-width: 600px) {
+  .ftr-a-grid { grid-template-columns: 1fr; }
+  .ftr-b-top { flex-direction: column; align-items: flex-start; }
+  .ftr-b-nav { gap: 16px; }
+  .ftr-bottom { flex-direction: column; align-items: flex-start; }
+  .ftr-c-nav-row { gap: 14px; }
+}
+
+/* ─── E : Le Salon Naval ─────────────────────────────────────────────── */
+.ftr-e { background: #f0f4f8; border-top: 1px solid #b8ccdd; }
+.ftr-e-inner { padding: clamp(48px, 6vw, 72px) 0 clamp(32px, 4vw, 48px); display: flex; flex-direction: column; gap: 24px; }
+.ftr-e-top { display: flex; flex-direction: column; gap: 8px; }
+.ftr-e-logo {
+  font-family: 'Newsreader', Georgia, serif;
+  font-style: italic; font-size: 22px; color: #1c3458; text-decoration: none;
+}
+.ftr-e-tagline {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: #6e88a8; letter-spacing: 0.12em; text-transform: uppercase; margin: 0;
+}
+.ftr-e-nav-row {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  border-top: 1px solid #b8ccdd; padding-top: 24px;
+}
+.ftr-e-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #6e88a8; letter-spacing: 0.1em; margin: 0;
+}
+
+/* ─── F : Stade ───────────────────────────────────────────────────────── */
+.ftr-f { background: #fff; border-top: 1px solid #e3e7ee; }
+.ftr-f-inner { padding: clamp(36px, 5vw, 56px) 0; display: flex; flex-direction: column; gap: 28px; }
+.ftr-f-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.ftr-f-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.ftr-f-mark {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: #0a0e1a; color: #fff;
+  display: grid; place-items: center;
+  font-family: 'Geist Mono', monospace; font-size: 12px;
+}
+.ftr-f-name { font-family: 'Geist', sans-serif; font-size: 16px; font-weight: 600; color: #0a0e1a; }
+.ftr-f-nav { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.ftr-f-bottom {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  border-top: 1px solid #e3e7ee; padding-top: 20px; flex-wrap: wrap;
+}
+
+/* ─── G : Vague Aqua ──────────────────────────────────────────────────── */
+.ftr-g { background: #e8f4f8; border-top: 1px solid #7ab8d0; }
+.ftr-g-inner { padding: clamp(48px, 6vw, 72px) 0 clamp(32px, 4vw, 48px); display: flex; flex-direction: column; gap: 24px; }
+.ftr-g-top { display: flex; flex-direction: column; gap: 8px; }
+.ftr-g-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 18px; font-weight: 600; color: #1c3d5a; text-decoration: none;
+}
+.ftr-g-dot { width: 20px; height: 20px; border-radius: 50%; background: #0e92b8; }
+.ftr-g-tagline {
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: #4d8099; margin: 0;
+}
+.ftr-g-nav-row {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  border-top: 1px solid #7ab8d0; padding-top: 24px;
+}
+.ftr-g-link { font-family: 'DM Sans', sans-serif; font-size: 14px; color: #2d5a7a; text-decoration: none; transition: color 0.15s; }
+.ftr-g-link:hover { color: #1c3d5a; }
+.ftr-g-link-faint { color: #4d8099; }
+.ftr-g-copy { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #4d8099; margin: 0; }
+
+/* ─── D : Forge Industrial ───────────────────────────────────────────── */
+.ftr-d {
+  background: #dce3ea;
+  border-top: 3px solid #1c2d45;
+}
+.ftr-d-inner { padding: clamp(36px, 5vw, 56px) 0; }
+.ftr-d-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 32px; margin-bottom: 32px; padding-bottom: 28px;
+  border-bottom: 1.5px solid #1c2d45;
+  flex-wrap: wrap;
+}
+.ftr-d-brand { display: flex; align-items: baseline; gap: 10px; }
+.ftr-d-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 20px; letter-spacing: -0.01em; color: #1c2d45;
+}
+.ftr-d-est {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #6a8099; letter-spacing: 0.15em;
+}
+.ftr-d-nav { display: flex; gap: 24px; flex-wrap: wrap; }
+.ftr-d-link {
+  font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 11px; color: #1c2d45; letter-spacing: 0.06em;
+  text-decoration: none; transition: color 0.15s;
+}
+.ftr-d-link:hover { color: #e67e22; }
+.ftr-d-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 20px; flex-wrap: wrap;
+}
+.ftr-d-address { display: flex; gap: 28px; flex-wrap: wrap; }
+.ftr-d-stamp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #4a6888; letter-spacing: 0.12em;
+}
+.ftr-d-legal { display: flex; align-items: center; gap: 10px; }
+.ftr-d-legal-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #6a8099; letter-spacing: 0.1em;
+  text-decoration: none; transition: color 0.15s;
+}
+.ftr-d-legal-link:hover { color: #1c2d45; }
+.ftr-d-sep { color: #99b0c8; font-size: 10px; }
+@media (max-width: 768px) {
+  .ftr-d-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+ 
+/* ─── Variante H : Artisan ──────────────────────────────────────────── */
+.ftr-h {
+  background-color: #0f172a;
+  color: #94a3b8;
+  padding: 5rem 0 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.ftr-h-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+.ftr-h-main {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 4rem;
+}
+.ftr-h-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.ftr-h-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+.ftr-h-logo i {
+  color: var(--primary);
+}
+.ftr-h-brand p {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 400px;
+}
+.ftr-h-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.ftr-h-contact a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ftr-h-contact a:hover {
+  color: var(--primary);
+}
+.ftr-h-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.ftr-h-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.ftr-h-col h4 {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.ftr-h-col a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ftr-h-col a:hover {
+  color: var(--primary);
+}
+.ftr-h-bottom {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+ 
+@media (max-width: 768px) {
+  .ftr-h-main {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .ftr-h-bottom {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+</style>
+</style>

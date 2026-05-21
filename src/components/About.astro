@@ -1,0 +1,213 @@
+---
+// About — 2 variantes
+// A : 2 colonnes — texte+stats gauche, image droite avec carte auteur
+// B : Stats éditoriales pleine largeur + paragraphe
+import { variants, about } from '../config/site';
+
+const v = variants.about;
+---
+
+<div id="apropos">
+  {/* ── Variante A : 2 colonnes texte + image ──────────────────────────── */}
+  <section class="section section-alt v-only-a">
+    <div class="container abt-a-inner">
+      <div class="abt-a-text">
+        <p class="eyebrow">{about.eyebrow}</p>
+        <h2 class="abt-h2">{about.title}</h2>
+        <div class="abt-a-body">
+          {about.text.map((p: string) => <p class="abt-para">{p}</p>)}
+        </div>
+        <div class="abt-a-stats">
+          <div class="abt-a-divider"></div>
+          <div class="abt-a-stats-row">
+            {about.stats.map((s) => (
+              <div class="abt-a-stat">
+                <span class="abt-stat-val">{s.value}</span>
+                <span class="abt-stat-lbl eyebrow">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <a href={about.cta.href} class="btn btn-outline" style="align-self: flex-start; margin-top: 32px;">
+          {about.cta.label}
+        </a>
+      </div>
+      <div class="abt-a-visual">
+        {about.image && <img src={about.image} class="abt-a-img" alt={about.title} />}
+        <div class="abt-a-author-card">
+          {about.author.image && <img src={about.author.image} class="abt-a-avatar" alt={about.author.name} />}
+          <div>
+            <p class="abt-author-name">{about.author.name}</p>
+            <p class="abt-author-role eyebrow">{about.author.role}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Variante B : stats éditoriales ────────────────────────────────── */}
+  <section class="section v-only-b v-only-c v-only-d v-only-e v-only-f v-only-g v-only-h">
+    <div class="container">
+      <div class="abt-b-head">
+        <p class="eyebrow">{about.eyebrow}</p>
+        <h2 class="abt-h2 abt-b-h2">{about.title}</h2>
+      </div>
+      <div class="abt-b-stats">
+        {about.stats.map((s) => (
+          <div class="abt-b-stat">
+            <span class="abt-b-stat-val">{s.value}</span>
+            <span class="abt-stat-lbl eyebrow">{s.label}</span>
+          </div>
+        ))}
+      </div>
+      <div class="abt-b-body">
+        {about.text.map((p: string) => <p class="abt-para">{p}</p>)}
+        <a href={about.cta.href} class="btn btn-outline" style="align-self: flex-start; margin-top: 24px;">
+          {about.cta.label}
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+.abt-h2 {
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+  color: var(--ink); margin: 12px 0 24px;
+}
+.abt-para { font-size: 16px; color: var(--inkSoft); line-height: 1.7; }
+.abt-stat-lbl { display: block; margin-top: 4px; }
+
+/* ─── A ────────────────────────────────────────────────────────────────── */
+.abt-a-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 8vw, 96px); align-items: center;
+}
+.abt-a-text { display: flex; flex-direction: column; gap: 0; }
+.abt-a-body { display: flex; flex-direction: column; gap: 16px; }
+.abt-a-stats { margin-top: 36px; }
+.abt-a-divider { height: 1px; background: var(--lineSoft); margin-bottom: 24px; }
+.abt-a-stats-row { display: flex; gap: 40px; flex-wrap: wrap; }
+.abt-a-stat { display: flex; flex-direction: column; gap: 2px; }
+.abt-stat-val {
+  font-size: clamp(28px, 4vw, 40px); font-weight: 600;
+  color: var(--ink); letter-spacing: -0.03em; line-height: 1;
+}
+
+/* Image + carte auteur */
+.abt-a-visual { position: relative; }
+.abt-a-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius-lg); }
+.abt-a-author-card {
+  position: absolute; bottom: -16px; left: 16px;
+  background: var(--bgCard);
+  border: 1px solid var(--lineSoft);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: var(--shadow-md);
+}
+.abt-a-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--lineSoft);
+  object-fit: cover;
+}
+.abt-author-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.abt-author-role { margin: 0; }
+
+/* ─── B ────────────────────────────────────────────────────────────────── */
+.abt-b-head { margin-bottom: 48px; }
+.abt-b-h2 { max-width: 24ch; }
+.abt-b-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--lineSoft);
+  border-left: 1px solid var(--lineSoft);
+  margin-bottom: 48px;
+}
+.abt-b-stat {
+  padding: 32px 28px;
+  border-right: 1px solid var(--lineSoft);
+  border-bottom: 1px solid var(--lineSoft);
+}
+.abt-b-stat-val {
+  font-size: clamp(40px, 6vw, 64px); font-weight: 600;
+  letter-spacing: -0.04em; line-height: 1; color: var(--ink); display: block;
+}
+.abt-b-body { display: flex; flex-direction: column; gap: 16px; max-width: 64ch; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .abt-a-inner { grid-template-columns: 1fr; }
+  .abt-a-visual { display: none; }
+  .abt-b-stats { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .abt-b-stats { grid-template-columns: 1fr; }
+  .abt-a-stats-row { gap: 24px; }
+}
+
+/* ─── E : Le Salon Naval overrides ───────────────────────────────────── */
+body.v-e #apropos { background: #f0f4f8; }
+body.v-e .abt-b-stat { border-right: 1px solid #b8ccdd; border-bottom: 1px solid #b8ccdd; }
+body.v-e .abt-b-stats { border-top: 1px solid #b8ccdd; border-left: 1px solid #b8ccdd; }
+body.v-e .abt-b-stat-val { font-family: 'Newsreader', Georgia, serif; font-style: italic; color: #2d6ac4; }
+body.v-e .abt-h2 { font-family: 'Newsreader', Georgia, serif; font-weight: 400; }
+
+/* ─── F : Stade overrides ─────────────────────────────────────────────── */
+body.v-f #apropos { background: #fafbfc; }
+body.v-f .abt-b-stat { border-right: 1px solid #e3e7ee; border-bottom: 1px solid #e3e7ee; border-radius: 0; }
+body.v-f .abt-b-stats { border-top: 1px solid #e3e7ee; border-left: 1px solid #e3e7ee; }
+body.v-f .abt-b-stat-val { font-family: 'Geist', sans-serif; color: #3a63ff; }
+body.v-f .abt-h2 { font-family: 'Geist', sans-serif; }
+
+/* ─── G : Vague Aqua overrides ───────────────────────────────────────── */
+body.v-g #apropos { background: #e8f4f8; }
+body.v-g .abt-b-stat { border-right: 1px solid #7ab8d0; border-bottom: 1px solid #7ab8d0; border-radius: 0; }
+body.v-g .abt-b-stats { border-top: 1px solid #7ab8d0; border-left: 1px solid #7ab8d0; }
+body.v-g .abt-b-stat-val { font-family: 'Bricolage Grotesque', sans-serif; color: #0e92b8; }
+body.v-g .abt-h2 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; }
+
+/* ─── D : Forge overrides pour section B ─────────────────────────────── */
+body.v-d #apropos { background: #dce3ea; }
+body.v-d .abt-b-stat {
+  border-right: 1.5px solid #1c2d45;
+  border-bottom: 1.5px solid #1c2d45;
+}
+body.v-d .abt-b-stats {
+  border-top: 1.5px solid #1c2d45;
+  border-left: 1.5px solid #1c2d45;
+}
+body.v-d .abt-b-stat-val {
+  font-family: 'Archivo Black', sans-serif;
+  color: #e67e22;
+}
+body.v-d .abt-h2 {
+  font-family: 'Archivo Black', sans-serif;
+  text-transform: uppercase; letter-spacing: -0.03em;
+}
+ 
+/* ─── H : Artisan overrides ─────────────────────────────────────────── */
+body.v-h #apropos { background: #f8fafc; }
+body.v-h .abt-b-stat {
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+body.v-h .abt-b-stats {
+  border-top: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+  gap: 1rem;
+}
+body.v-h .abt-b-stat-val {
+  font-family: 'Outfit', sans-serif;
+  color: #0ea5e9;
+  font-weight: 700;
+}
+body.v-h .abt-h2 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+</style>

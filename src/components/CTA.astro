@@ -1,0 +1,256 @@
+---
+// CTA finale — 2 variantes
+// A : Fond contrasté (ink) avec invitation forte
+// B : Minimaliste inline — titre + boutons sur fond paper
+import { variants, cta } from '../config/site';
+
+const v = variants.cta;
+---
+
+{/* ── Variante A : fond contrasté ────────────────────────────────────── */}
+<section class="cta-a v-only-a" id="cta-a">
+  <div class="container cta-a-inner">
+    <div class="cta-a-content">
+      <p class="eyebrow cta-a-eyebrow">{cta.eyebrow}</p>
+      <h2 class="cta-a-h2">{cta.title}</h2>
+      <p class="cta-a-sub">{cta.subtitle}</p>
+    </div>
+    <div class="cta-a-actions">
+      <a href={cta.cta1.href} class="btn btn-lg cta-btn-primary">{cta.cta1.label}</a>
+      <a href={cta.cta2.href} class="btn btn-lg cta-btn-ghost">{cta.cta2.label}</a>
+    </div>
+  </div>
+</section>
+
+{/* ── Variante B : minimaliste inline ────────────────────────────────── */}
+<section class="section section-alt v-only-b v-only-c v-only-f v-only-h" id="cta-b">
+  <div class="container cta-b-inner">
+    <div>
+      <p class="eyebrow">{cta.eyebrow}</p>
+      <h2 class="cta-b-h2">{cta.title}</h2>
+      <p class="cta-b-sub">{cta.subtitle}</p>
+    </div>
+    <div class="cta-b-actions">
+      <a href={cta.cta1.href} class="btn btn-primary btn-lg">{cta.cta1.label}</a>
+      <a href={cta.cta2.href} class="btn btn-outline btn-lg">{cta.cta2.label}</a>
+    </div>
+  </div>
+</section>
+
+{/* ── Variante E : Le Salon — fond encré sérifé ──────────────────────── */}
+<section class="cta-e v-only-e" id="cta-e">
+  <div class="container cta-e-inner">
+    <div class="cta-e-ornement" aria-hidden="true">✦ &nbsp; {cta.eyebrow} &nbsp; ✦</div>
+    <h2 class="cta-e-h2">{cta.title}</h2>
+    <p class="cta-e-sub">{cta.subtitle}</p>
+    <div class="cta-e-actions">
+      <a href={cta.cta1.href} class="cta-e-btn-primary">{cta.cta1.label}</a>
+      <a href={cta.cta2.href} class="cta-e-btn-ghost">{cta.cta2.label}</a>
+    </div>
+  </div>
+</section>
+
+{/* ── Variante G : Verveine — card peach arrondie ──────────────────────── */}
+<section class="v-only-g cta-g-wrap" id="cta-g">
+  <div class="container">
+    <div class="cta-g">
+      <div class="cta-g-blob-1" aria-hidden="true"></div>
+      <div class="cta-g-blob-2" aria-hidden="true"></div>
+      <div class="cta-g-content">
+        <h2 class="cta-g-h2">{cta.title}</h2>
+        <p class="cta-g-sub">{cta.subtitle}</p>
+        <div class="cta-g-actions">
+          <a href={cta.cta1.href} class="cta-g-btn-primary">{cta.cta1.label}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ── Variante D : Forge / fond ocre ──────────────────────────────────── */}
+<section class="cta-d v-only-d" id="cta-d">
+  <div class="container cta-d-inner">
+    <h2 class="cta-d-h2">{cta.title}</h2>
+    <div class="cta-d-right">
+      <p class="cta-d-sub">{cta.subtitle}</p>
+      <div class="cta-d-actions">
+        <a href={cta.cta1.href} class="cta-d-btn-primary">{cta.cta1.label} →</a>
+        <a href={cta.cta2.href} class="cta-d-btn-secondary">{cta.cta2.label}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ─── A ───────────────────────────────────────────────────────────────── */
+.cta-a {
+  background: var(--primaryColor);
+  background: linear-gradient(135deg, #0266FF 0%, #0047BB 100%);
+  padding: clamp(64px, 10vw, 120px) 0;
+}
+.cta-a-inner {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 36px;
+}
+.cta-a-eyebrow { color: rgba(255,255,255,.8); }
+.cta-a-h2 {
+  font-size: clamp(28px, 4vw, 52px); font-weight: 700;
+  letter-spacing: -0.03em; line-height: 1.1; color: #fff; margin: 0;
+}
+.cta-a-sub { font-size: 18px; color: rgba(255,255,255,.9); line-height: 1.6; max-width: 52ch; margin: 0; }
+.cta-a-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+/* Boutons sur fond sombre */
+.cta-btn-primary {
+  background: #fff; color: var(--primaryColor); border-color: #fff;
+  border-radius: 12px; font-weight: 700;
+}
+.cta-btn-primary:hover { background: rgba(255,255,255,.9); transform: translateY(-2px); }
+.cta-btn-ghost {
+  background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4);
+  border-radius: 12px;
+}
+.cta-btn-ghost:hover { background: rgba(255,255,255,.1); }
+
+/* ─── B ───────────────────────────────────────────────────────────────── */
+.cta-b-inner {
+  display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+}
+.cta-b-h2 {
+  font-size: clamp(24px, 3vw, 38px); font-weight: 600;
+  letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin: 12px 0 12px;
+}
+.cta-b-sub { font-size: 15px; color: var(--inkSoft); margin: 0; }
+.cta-b-actions { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cta-a-actions, .cta-b-actions { flex-direction: column; align-items: stretch; }
+  .cta-a-actions .btn, .cta-b-actions .btn { justify-content: center; }
+  .cta-b-inner { grid-template-columns: 1fr; }
+}
+
+/* ─── E : Le Salon Naval ─────────────────────────────────────────────── */
+.cta-e {
+  background: #1c3458; color: #f0f4f8;
+  padding: clamp(64px, 10vw, 96px) 0;
+}
+.cta-e-inner {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 0;
+}
+.cta-e-ornement {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #7ab8d0; letter-spacing: 0.3em;
+  text-transform: uppercase; margin-bottom: 28px;
+}
+.cta-e-h2 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 400; font-size: clamp(48px, 7vw, 88px);
+  line-height: 1.0; letter-spacing: -0.03em; color: #f0f4f8;
+  margin: 0 0 20px;
+}
+.cta-e-h2 em { font-style: italic; color: #7ab8d0; }
+.cta-e-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px; color: rgba(176,204,221,.75);
+  max-width: 48ch; margin: 0 0 40px; line-height: 1.6;
+}
+.cta-e-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.cta-e-btn-primary {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px;
+  padding: 16px 28px; background: #f0f4f8; color: #1c3458;
+  border: 1px solid #f0f4f8; border-radius: 0; text-decoration: none;
+  transition: background 0.15s;
+}
+.cta-e-btn-primary:hover { background: #dbeafe; }
+.cta-e-btn-ghost {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px;
+  padding: 16px 28px; background: transparent; color: #f0f4f8;
+  border: 1px solid #4d7eb8; border-radius: 0; text-decoration: none;
+}
+
+/* ─── G : Vague Aqua ──────────────────────────────────────────────────── */
+.cta-g-wrap { padding: 32px 0 80px; }
+.cta-g {
+  background: #b8dce8; border-radius: 40px;
+  padding: clamp(56px, 8vw, 80px) clamp(32px, 5vw, 56px);
+  position: relative; overflow: hidden;
+}
+.cta-g-blob-1 {
+  position: absolute; top: -40px; right: -40px;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: #7ab8d0; opacity: 0.3;
+}
+.cta-g-blob-2 {
+  position: absolute; bottom: -60px; left: -20px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: #c8e8f4; opacity: 0.4;
+}
+.cta-g-content { position: relative; max-width: 600px; }
+.cta-g-h2 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05; letter-spacing: -0.03em; color: #1c3d5a;
+  margin: 0 0 20px;
+}
+.cta-g-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px; color: #2d5a7a; margin: 0 0 32px; line-height: 1.6; max-width: 48ch;
+}
+.cta-g-actions { display: flex; gap: 12px; }
+.cta-g-btn-primary {
+  font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 15px;
+  padding: 14px 28px; background: #1c3d5a; color: #f0f8fb;
+  border: 1.5px solid #1c3d5a; border-radius: 9999px; text-decoration: none;
+  transition: background 0.15s;
+}
+.cta-g-btn-primary:hover { background: #0e2a40; }
+
+/* ─── D : Forge Industrial ───────────────────────────────────────────── */
+.cta-d {
+  background: #1c2d45;
+  padding: clamp(64px, 10vw, 96px) 0;
+}
+.cta-d-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: flex-end;
+}
+.cta-d-h2 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.9; letter-spacing: -0.05em;
+  text-transform: uppercase; color: #e8ecf0; margin: 0;
+}
+.cta-d-right { display: flex; flex-direction: column; gap: 28px; }
+.cta-d-sub {
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px; color: #99b0c8; line-height: 1.6;
+  max-width: 48ch; margin: 0;
+}
+.cta-d-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cta-d-btn-primary {
+  font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 14px 24px;
+  background: #e67e22; color: #fff;
+  border: 2px solid #e67e22; border-radius: 0;
+  text-decoration: none; white-space: nowrap;
+  transition: background 0.15s;
+}
+.cta-d-btn-primary:hover { background: #cf6d17; border-color: #cf6d17; }
+.cta-d-btn-secondary {
+  font-family: 'Manrope', sans-serif; font-weight: 700;
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 14px 24px;
+  background: transparent; color: #e8ecf0;
+  border: 2px solid #4a6888; border-radius: 0;
+  text-decoration: none; white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.cta-d-btn-secondary:hover { background: #4a6888; color: #e8ecf0; }
+@media (max-width: 768px) {
+  .cta-d-inner { grid-template-columns: 1fr; gap: 32px; }
+  .cta-d-actions { flex-direction: column; }
+}
+</style>

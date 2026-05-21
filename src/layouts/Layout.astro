@@ -1,0 +1,476 @@
+---
+import { siteConfig } from '../config/site';
+import DesignSwitcher from '../components/DesignSwitcher.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+}
+
+const { title, description, canonical } = Astro.props;
+const { branding, seo, features, design } = siteConfig;
+const canonicalUrl = canonical ?? `${seo.siteUrl}${Astro.url.pathname}`;
+
+// Tokens neutrals warm-paper (invariants, indépendants de la couleur brand)
+const tokens = {
+  bg:         '#faf9f7',
+  bgCard:     '#ffffff',
+  paper:      '#fefdf9',
+  ink:        '#1a1916',
+  inkSoft:    '#5a574e',
+  inkFaint:   '#8c887c',
+  line:       '#d9d4c7',
+  lineSoft:   '#ebe7dc',
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={branding.faviconPath} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Webmaster verification -->
+    {seo.googleSearchConsole && <meta name="google-site-verification" content={seo.googleSearchConsole} />}
+    {seo.bingWebmasterKey    && <meta name="msvalidate.01" content={seo.bingWebmasterKey} />}
+
+    <!-- Open Graph -->
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url"         content={canonicalUrl} />
+    <meta property="og:locale"      content={seo.locale} />
+    <meta property="og:type"        content="website" />
+    {seo.ogImage && <meta property="og:image" content={`${seo.siteUrl}${seo.ogImage}`} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Polices : Geist (heading/body) + Kalam (handwritten) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href={`https://fonts.googleapis.com/css2?family=${encodeURIComponent(branding.fontHeading)}:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap`}
+      rel="stylesheet"
+    />
+
+    <!-- Analytics GA (opt-in via features.analytics) -->
+    {features.analytics && seo.googleAnalyticsId && (
+      <script is:inline define:vars={{ gid: seo.googleAnalyticsId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date()); gtag('config', gid);
+      </script>
+    )}
+
+    <!-- Analytics Plausible (opt-in via features.plausible, privacy-friendly) -->
+    {features.plausible && seo.plausibleDomain && (
+      <script
+        is:inline
+        defer
+        data-domain={seo.plausibleDomain}
+        src="https://plausible.io/js/script.js"
+      />
+    )}
+
+    <!-- Sentry (opt-in via features.sentry) -->
+    <!-- Google Fonts : Geist + Kalam (sketchy) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Directions D/E/F/G : Wireframe fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&family=DM+Sans:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Phosphor Icons — hébergés localement (pas de CDN externe) -->
+    <link rel="stylesheet" href="/phosphor-icons/regular/style.css" />
+    <link rel="stylesheet" href="/phosphor-icons/fill/style.css" />
+  </head>
+  <body class={`v-a${design.isSketchy ? ' is-sketchy' : ''}`}>
+    <script is:inline>
+      const v = localStorage.getItem('demo-variant');
+      if (v) document.body.className = document.body.className.replace(/\bv-[a-h]\b/g, 'v-' + v.toLowerCase());
+    </script>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <slot />
+
+    <DesignSwitcher />
+
+    <!-- Filtres SVG pour le mode Sketchy (Rough) -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+      <defs>
+        <filter id="rough" x="-2%" y="-2%" width="104%" height="104%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+        <filter id="rough-strong" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+  </body>
+</html>
+
+<style is:global define:vars={{
+  primary:     branding.primaryColor,
+  primaryDark: branding.primaryDark,
+  primarySoft: branding.primarySoft,
+  accent:      branding.accentColor,
+  fontHeading: branding.fontHeading,
+  fontBody:    branding.fontBody,
+  fontMono:    branding.fontMono,
+  fontHand:    'Kalam',
+  bg:          tokens.bg,
+  bgCard:      tokens.bgCard,
+  paper:       tokens.paper,
+  ink:         tokens.ink,
+  inkSoft:     tokens.inkSoft,
+  inkFaint:    tokens.inkFaint,
+  line:        tokens.line,
+  lineSoft:    tokens.lineSoft,
+}}>
+
+/* ─── Reset & Base ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; padding: 0;
+  font-family: var(--fontBody), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ─── Variantes Globales (Show/Hide) ────────────────────────────────── */
+.v-only-a, .v-only-b, .v-only-c, .v-only-d,
+.v-only-e, .v-only-f, .v-only-g, .v-only-h { display: none !important; }
+
+body.v-a .v-only-a { display: block !important; }
+body.v-b .v-only-b { display: block !important; }
+body.v-c .v-only-c { display: block !important; }
+body.v-d .v-only-d { display: block !important; }
+body.v-e .v-only-e { display: block !important; }
+body.v-f .v-only-f { display: block !important; }
+body.v-g .v-only-g { display: block !important; }
+body.v-h .v-only-h { display: block !important; }
+
+/* Cas particulier pour les headers/footers qui sont flex ou grid */
+body.v-a header.v-only-a { display: block !important; }
+body.v-b header.v-only-b { display: block !important; }
+body.v-c header.v-only-c { display: block !important; }
+body.v-d header.v-only-d { display: block !important; }
+body.v-d footer.v-only-d { display: block !important; }
+body.v-e header.v-only-e { display: block !important; }
+body.v-e footer.v-only-e { display: block !important; }
+body.v-f header.v-only-f { display: block !important; }
+body.v-f footer.v-only-f { display: block !important; }
+body.v-g header.v-only-g { display: block !important; }
+body.v-g footer.v-only-g { display: block !important; }
+body.v-h header.v-only-h { display: block !important; }
+body.v-h footer.v-only-h { display: block !important; }
+
+/* ─── Direction D : Forge global overrides — Industrial Naval ────────── */
+body.v-d {
+  background: #e8ecf0;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 0px;
+  --bg: #e8ecf0;
+  --bgCard: #dce3ea;
+  --paper: #dce3ea;
+  --ink: #1c2d45;
+  --inkSoft: #3a5068;
+  --inkFaint: #6a8099;
+  --line: #1c2d45;
+  --lineSoft: #99b0c8;
+}
+body.v-d .card {
+  border: 1.5px solid #1c2d45;
+  background: #dce3ea;
+  border-radius: 0;
+}
+body.v-d .btn { border-radius: 0; }
+body.v-d .btn-primary { background: #1c2d45; color: #e8ecf0; border-color: #1c2d45; }
+body.v-d .btn-primary:hover { background: #e67e22; border-color: #e67e22; color: #1c2d45; }
+body.v-d .btn-outline { border-color: #1c2d45; color: #1c2d45; }
+
+/* ─── Direction E : Le Salon — Éditorial Naval Premium ───────────────── */
+body.v-e {
+  background: #f0f4f8;
+  font-family: '"Plus Jakarta Sans", -apple-system, sans-serif';
+  --bg: #f0f4f8;
+  --bgCard: #e4ebf4;
+  --paper: #f8fafc;
+  --ink: #1c3458;
+  --inkSoft: #3d5880;
+  --inkFaint: #6e88a8;
+  --line: #1c3458;
+  --lineSoft: #b8ccdd;
+}
+body.v-e .card { background: #f8fafc; border-color: #b8ccdd; }
+body.v-e .btn-primary { background: #1c3458; color: #f8fafc; border-color: #1c3458; }
+body.v-e .btn-primary:hover { background: #2d6ac4; border-color: #2d6ac4; }
+body.v-e .btn-outline { border-color: #1c3458; color: #1c3458; }
+
+/* ─── Direction F : Stade — Tech ─────────────────────────────────────── */
+body.v-f {
+  background: #fafbfc;
+  --bg: #fafbfc;
+  --bgCard: #ffffff;
+  --paper: #f5f6f8;
+  --ink: #0a0e1a;
+  --inkSoft: #3d4458;
+  --inkFaint: #7a8195;
+  --line: #e3e7ee;
+  --lineSoft: #eef1f5;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+body.v-f .card { background: #ffffff; border-color: #e3e7ee; border-radius: 12px; }
+body.v-f .btn-primary { background: #0a0e1a; color: #fff; border-color: #0a0e1a; border-radius: 8px; }
+body.v-f .btn-outline { border-color: #e3e7ee; color: #0a0e1a; border-radius: 8px; }
+
+/* ─── Direction G : Vague — Eau & Aqua ───────────────────────────────── */
+body.v-g {
+  background: #e8f4f8;
+  font-family: '"DM Sans", -apple-system, sans-serif';
+  --bg: #e8f4f8;
+  --bgCard: #d4ecf4;
+  --paper: #f0f8fb;
+  --ink: #1c3d5a;
+  --inkSoft: #3a6080;
+  --inkFaint: #6a90aa;
+  --line: #7ab8d0;
+  --lineSoft: #b8dce8;
+  --radius-sm: 16px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 9999px;
+}
+body.v-g .card { background: #f0f8fb; border-color: #b8dce8; border-radius: 28px; }
+body.v-g .btn { border-radius: 9999px; }
+body.v-g .btn-primary { background: #1c3d5a; color: #f0f8fb; border-color: #1c3d5a; }
+body.v-g .btn-primary:hover { background: #0e92b8; border-color: #0e92b8; }
+body.v-g .btn-outline { border-color: #1c3d5a; color: #1c3d5a; }
+ 
+/* ─── Direction H : ABPM — Clean Blue ────────────────────────────────── */
+body.v-h {
+  background: #ffffff;
+  font-family: 'Outfit', sans-serif;
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --primary-light: #e0f2fe;
+  --bg: #ffffff;
+  --bgCard: #ffffff;
+  --paper: #f8fafc;
+  --ink: #0f172a;
+  --inkSoft: #64748b;
+  --inkFaint: #94a3b8;
+  --line: #e2e8f0;
+  --lineSoft: #f1f5f9;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+}
+body.v-h .card { background: #ffffff; border-color: #e2e8f0; border-radius: 12px; }
+body.v-h .btn { border-radius: 9999px; }
+body.v-h .btn-primary { background: #0ea5e9; color: #fff; border-color: #0ea5e9; }
+body.v-h .btn-primary:hover { background: #0284c7; border-color: #0284c7; }
+body.v-h .btn-outline { border-color: #0ea5e9; color: #0ea5e9; }
+body.v-h .btn-outline:hover { background: #e0f2fe; }
+
+
+a { text-decoration: none; color: inherit; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+
+/* ─── Tokens ─────────────────────────────────────────────────────────────── */
+:root {
+  --sans:  'Geist', ui-sans-serif, system-ui, sans-serif;
+  --mono:  'Geist Mono', ui-monospace, monospace;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 9999px;
+
+  --shadow-xs:  0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:  0 12px 32px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.04);
+
+  --transition: 0.18s cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+
+/* ─── Container ─────────────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 56px);
+}
+
+/* ─── Boutons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  border: 1.5px solid transparent;
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.btn-primary:hover {
+  background: var(--inkSoft);
+  border-color: var(--inkSoft);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-outline:hover {
+  border-color: var(--ink);
+  box-shadow: var(--shadow-xs);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--inkSoft);
+  border-color: transparent;
+  padding-left: 0; padding-right: 0;
+}
+.btn-ghost:hover { color: var(--ink); }
+
+.btn-sm { height: 34px; padding: 0 16px; font-size: 13px; }
+.btn-lg { height: 52px; padding: 0 32px; font-size: 15px; }
+
+/* ─── Badge / chip ───────────────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--inkFaint);
+}
+
+/* ─── Card ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bgCard);
+  border: 1px solid var(--lineSoft);
+  border-radius: var(--radius-lg);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* ─── Section layout ─────────────────────────────────────────────────────── */
+.section {
+  padding: clamp(64px, 10vw, 120px) 0;
+}
+.section-alt {
+  background: var(--paper);
+}
+
+/* ─── Séparateur fin ─────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--lineSoft);
+  border: none;
+  margin: 0;
+}
+
+/* ─── Utilitaires texte ──────────────────────────────────────────────────── */
+.text-muted  { color: var(--inkSoft); }
+.text-faint  { color: var(--inkFaint); }
+.text-mono   { font-family: var(--mono); }
+.hand-on     { font-family: var(--fontHand), cursive; }
+
+/* ─── Sketchy Mode ───────────────────────────────────────────────────────── */
+.sketchy * { filter: url(#rough); }
+.sketchy .rough-strong { filter: url(#rough-strong); }
+.sketchy .hand-on, .sketchy h1, .sketchy h2, .sketchy h3 { font-family: var(--fontHand), cursive; }
+
+/* ─── Image placeholder (avant la vraie photo) ───────────────────────────── */
+.img-placeholder {
+  background: var(--lineSoft);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--line) 0px,
+    var(--line) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  border-radius: var(--radius-md);
+}
+
+/* ─── Star rating ────────────────────────────────────────────────────────── */
+.stars { display: flex; gap: 2px; }
+.star  { color: var(--primary); font-size: 14px; }
+
+/* ─── Scrollbar subtile ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--inkFaint); }
+
+/* ─── Responsive utilitaires ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
+@media (max-width: 600px) {
+  .btn-sm { height: 44px; padding: 0 16px; }
+}
+
+/* ─── Skip link ──────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute; top: -100%; left: 16px;
+  background: var(--ink); color: var(--bg);
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 500; z-index: 10000;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 16px; }
+
+</style>

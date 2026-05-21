@@ -1,0 +1,494 @@
+---
+// Testimonials — 8 variantes via CSS v-only-* (même pattern que Hero)
+// A : 3 cards grille classique
+// B : Citation pleine page — 1 grande + 2 mini
+// C : Mur d'avis compact — grille dense
+// D : Liste dark industriel — fond navy/acier
+// E : Grille éditorial serif — premium naval
+// F : Grille tech cards monospace
+// G : Cards rondes eau/aqua
+// H : Cards propres blue ABPM
+import { testimonials } from '../config/site';
+---
+
+<div id="temoignages">
+
+{/* ── Variante A : 3 cards ────────────────────────────────────────────── */}
+<section class="section section-alt v-only-a">
+  <div class="container">
+    <div class="tst-head">
+      <div>
+        <p class="eyebrow">{testimonials.eyebrow}</p>
+        <h2 class="tst-h2">{testimonials.title}</h2>
+      </div>
+      <p class="tst-rating eyebrow">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-a-grid">
+      {testimonials.items.map((t) => (
+        <article class="card tst-a-card">
+          <div class="stars" aria-label="5 étoiles">
+            {'★★★★★'.split('').map(s => <span class="star">{s}</span>)}
+          </div>
+          <blockquote class="tst-a-quote">"{t.quote}"</blockquote>
+          <div class="tst-a-divider"></div>
+          <div class="tst-a-author">
+            <span class="tst-avatar" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-name">{t.name}</p>
+              <p class="tst-role eyebrow">{t.role}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Variante B : citation pleine page ──────────────────────────────── */}
+<section class="section v-only-b">
+  <div class="container tst-b-inner">
+    <div class="tst-b-left">
+      <p class="eyebrow">{testimonials.eyebrow}</p>
+      <h2 class="tst-h2">{testimonials.title}</h2>
+      <p class="tst-rating eyebrow" style="margin-top: 8px;">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-b-right">
+      {testimonials.items.length > 0 && (
+        <div class="tst-b-featured">
+          <div class="stars" aria-label="5 étoiles" style="margin-bottom: 20px;">
+            {'★★★★★'.split('').map(s => <span class="star">{s}</span>)}
+          </div>
+          <blockquote class="tst-b-quote">"{testimonials.items[0].quote}"</blockquote>
+          <div class="tst-b-author">
+            <span class="tst-avatar tst-avatar-lg" aria-hidden="true">{testimonials.items[0].initial}</span>
+            <div>
+              <p class="tst-name">{testimonials.items[0].name}</p>
+              <p class="tst-role eyebrow">{testimonials.items[0].role}</p>
+            </div>
+          </div>
+        </div>
+      )}
+      <div class="tst-b-mini-list">
+        {testimonials.items.slice(1).map((t) => (
+          <article class="tst-b-mini">
+            <span class="tst-avatar tst-avatar-sm" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-b-mini-quote">"{t.quote.slice(0, 80)}…"</p>
+              <p class="tst-role eyebrow">{t.name} · {t.role}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* ── Variante C : mur d'avis compact ────────────────────────────────── */}
+<section class="section section-alt v-only-c">
+  <div class="container">
+    <div class="tst-head">
+      <div>
+        <p class="eyebrow">{testimonials.eyebrow}</p>
+        <h2 class="tst-h2">{testimonials.title}</h2>
+      </div>
+      <p class="tst-rating eyebrow">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-c-grid">
+      {testimonials.items.map((t) => (
+        <article class="tst-c-card">
+          <div class="stars" aria-label="5 étoiles">
+            {'★★★★★'.split('').map(s => <span class="star">{s}</span>)}
+          </div>
+          <blockquote class="tst-c-quote">"{t.quote}"</blockquote>
+          <div class="tst-c-author">
+            <span class="tst-avatar tst-avatar-sm" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-name">{t.name}</p>
+              <p class="tst-role eyebrow">{t.role}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Variante D : Forge — dark industriel naval ──────────────────────── */}
+<section class="section tst-d-section v-only-d">
+  <div class="container">
+    <div class="tst-d-head">
+      <p class="tst-d-eyebrow">{testimonials.eyebrow.toUpperCase()}</p>
+      <h2 class="tst-d-h2">{testimonials.title}</h2>
+      <p class="tst-d-rating">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-d-list">
+      {testimonials.items.map((t, i) => (
+        <article class="tst-d-item">
+          <span class="tst-d-num">0{i + 1}</span>
+          <div class="tst-d-content">
+            <div class="tst-d-stars-row" aria-label="5 étoiles">
+              {'★★★★★'.split('').map(s => <span class="tst-d-star">{s}</span>)}
+            </div>
+            <blockquote class="tst-d-quote">"{t.quote}"</blockquote>
+            <div class="tst-d-author">
+              <span class="tst-d-initial" aria-hidden="true">{t.initial}</span>
+              <div>
+                <p class="tst-d-name">{t.name}</p>
+                <p class="tst-d-role">{t.role}</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Variante E : Le Salon — éditorial serif naval ───────────────────── */}
+<section class="section tst-e-section v-only-e">
+  <div class="container">
+    <div class="tst-e-head">
+      <p class="tst-e-eyebrow">{testimonials.eyebrow}</p>
+      <h2 class="tst-e-h2">{testimonials.title}</h2>
+    </div>
+    <div class="tst-e-grid">
+      {testimonials.items.map((t) => (
+        <article class="tst-e-item">
+          <div class="tst-e-stars-row" aria-label="5 étoiles">
+            {'★★★★★'.split('').map(s => <span class="tst-e-star">{s}</span>)}
+          </div>
+          <blockquote class="tst-e-quote">"{t.quote}"</blockquote>
+          <div class="tst-e-author">
+            <span class="tst-e-initial" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-e-name">{t.name}</p>
+              <p class="tst-e-role">{t.role}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Variante F : Stade — grille tech cards ──────────────────────────── */}
+<section class="section section-alt v-only-f">
+  <div class="container">
+    <div class="tst-f-head">
+      <p class="eyebrow">{testimonials.eyebrow}</p>
+      <h2 class="tst-h2">{testimonials.title}</h2>
+      <p class="tst-f-rating">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-f-grid">
+      {testimonials.items.map((t) => (
+        <article class="tst-f-card">
+          <div class="tst-f-meta">
+            <div class="stars" aria-label="5 étoiles">
+              {'★★★★★'.split('').map(s => <span class="star">{s}</span>)}
+            </div>
+            <span class="tst-f-verified">✓ Vérifié</span>
+          </div>
+          <blockquote class="tst-f-quote">"{t.quote}"</blockquote>
+          <div class="tst-f-author">
+            <span class="tst-avatar tst-avatar-sm" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-name">{t.name}</p>
+              <p class="tst-role eyebrow">{t.role}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Variante G : Vague — cards rondes eau/aqua ──────────────────────── */}
+<section class="section tst-g-section v-only-g">
+  <div class="container">
+    <div class="tst-g-head">
+      <p class="eyebrow">{testimonials.eyebrow}</p>
+      <h2 class="tst-h2">{testimonials.title}</h2>
+      <p class="tst-rating eyebrow" style="margin-top: 8px;">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-g-grid">
+      {testimonials.items.map((t) => (
+        <article class="tst-g-card">
+          <div class="tst-g-stars-row" aria-label="5 étoiles">
+            {'★★★★★'.split('').map(s => <span class="tst-g-star">{s}</span>)}
+          </div>
+          <blockquote class="tst-g-quote">"{t.quote}"</blockquote>
+          <div class="tst-g-author">
+            <span class="tst-g-initial" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-name">{t.name}</p>
+              <p class="tst-role eyebrow">{t.role}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ── Variante H : ABPM — cards propres blue ─────────────────────────── */}
+<section class="section section-alt v-only-h">
+  <div class="container">
+    <div class="tst-h-head">
+      <p class="tst-h-eyebrow">{testimonials.eyebrow}</p>
+      <h2 class="tst-h-h2">{testimonials.title}</h2>
+      <p class="tst-h-rating">{testimonials.ratingStr}</p>
+    </div>
+    <div class="tst-h-grid">
+      {testimonials.items.map((t) => (
+        <article class="tst-h-card">
+          <div class="stars" aria-label="5 étoiles">
+            {'★★★★★'.split('').map(s => <span class="star">{s}</span>)}
+          </div>
+          <blockquote class="tst-h-quote">"{t.quote}"</blockquote>
+          <div class="tst-h-author">
+            <span class="tst-h-avatar" aria-hidden="true">{t.initial}</span>
+            <div>
+              <p class="tst-name">{t.name}</p>
+              <p class="tst-role eyebrow">{t.role}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+</div>
+
+<style>
+/* ── Commun ─────────────────────────────────────────────────────────────── */
+.tst-h2 {
+  font-size: clamp(26px, 3.5vw, 42px); font-weight: 600;
+  letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin: 12px 0 0;
+}
+.tst-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; margin-bottom: 48px; flex-wrap: wrap;
+}
+.tst-rating { margin: 0; }
+.tst-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--lineSoft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 600; color: var(--ink);
+}
+.tst-avatar-lg { width: 52px; height: 52px; font-size: 20px; }
+.tst-avatar-sm { width: 32px; height: 32px; font-size: 12px; }
+.tst-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.tst-role { margin: 0; }
+
+/* ─── A ──────────────────────────────────────────────────────────────────── */
+.tst-a-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.tst-a-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+.tst-a-card .star { color: #f59e0b; }
+.tst-a-quote {
+  font-size: 16px; color: #334155; line-height: 1.7;
+  flex: 1; margin: 0; font-style: normal;
+}
+.tst-a-divider { height: 1px; background: var(--lineSoft); }
+.tst-a-author { display: flex; align-items: center; gap: 12px; }
+
+/* ─── B ──────────────────────────────────────────────────────────────────── */
+.tst-b-inner { display: grid; grid-template-columns: 1fr 2fr; gap: clamp(48px, 8vw, 96px); align-items: start; }
+.tst-b-left { display: flex; flex-direction: column; position: sticky; top: 100px; }
+.tst-b-right { display: flex; flex-direction: column; gap: 32px; }
+.tst-b-featured {
+  background: var(--bgCard); border: 1px solid var(--lineSoft);
+  border-radius: var(--radius-lg); padding: 36px 32px;
+}
+.tst-b-quote {
+  font-size: clamp(18px, 2.5vw, 24px); font-weight: 400;
+  line-height: 1.55; color: var(--ink); font-style: normal;
+  margin: 0 0 28px;
+}
+.tst-b-author { display: flex; align-items: center; gap: 16px; }
+.tst-b-mini-list { display: flex; flex-direction: column; gap: 16px; }
+.tst-b-mini {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 20px; background: var(--paper);
+  border-radius: var(--radius-md); border: 1px solid var(--lineSoft);
+}
+.tst-b-mini-quote { font-size: 14px; color: var(--inkSoft); line-height: 1.6; margin: 0 0 4px; font-style: italic; }
+
+/* ─── C ──────────────────────────────────────────────────────────────────── */
+.tst-c-grid { columns: 3; gap: 20px; }
+.tst-c-card {
+  background: var(--bgCard); border: 1px solid var(--lineSoft);
+  border-radius: var(--radius-md); padding: 20px;
+  break-inside: avoid; margin-bottom: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.tst-c-quote { font-size: 14px; color: var(--ink); line-height: 1.65; flex: 1; margin: 0; font-style: normal; }
+.tst-c-author { display: flex; align-items: center; gap: 10px; }
+
+/* ─── D : Forge Industrial Navy ─────────────────────────────────────────── */
+.tst-d-section { background: #1c2d45; }
+.tst-d-head { margin-bottom: 56px; border-bottom: 2px solid #4a6888; padding-bottom: 40px; }
+.tst-d-eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: #e67e22;
+  margin: 0 0 10px;
+}
+.tst-d-h2 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(28px, 4vw, 48px); text-transform: uppercase;
+  color: #e8ecf0; margin: 0 0 8px; letter-spacing: -0.02em;
+}
+.tst-d-rating {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6a8099; margin: 0;
+}
+.tst-d-list { display: flex; flex-direction: column; }
+.tst-d-item {
+  display: grid; grid-template-columns: 56px 1fr; gap: 28px;
+  padding: 32px 0; border-top: 1.5px solid rgba(74,104,136,.35);
+}
+.tst-d-item:last-child { border-bottom: 1.5px solid rgba(74,104,136,.35); }
+.tst-d-num {
+  font-family: 'Archivo Black', sans-serif; font-size: 32px;
+  color: rgba(232,236,240,.12); line-height: 1; padding-top: 4px;
+}
+.tst-d-stars-row { display: flex; gap: 2px; margin-bottom: 14px; }
+.tst-d-star { color: #e67e22; font-size: 14px; }
+.tst-d-quote {
+  font-family: 'Manrope', sans-serif; font-size: 17px;
+  line-height: 1.65; color: #c8d5e2; font-style: normal; margin: 0 0 22px;
+}
+.tst-d-author { display: flex; gap: 14px; align-items: center; }
+.tst-d-initial {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: rgba(74,104,136,.25); border: 1.5px solid #4a6888;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #e8ecf0;
+}
+.tst-d-name { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: #e8ecf0; margin-bottom: 3px; }
+.tst-d-role { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6a8099; letter-spacing: 0.05em; margin: 0; }
+
+/* ─── E : Le Salon / Naval Premium ─────────────────────────────────────── */
+.tst-e-section { background: #f0f4f8; }
+.tst-e-head { text-align: center; margin-bottom: 56px; }
+.tst-e-eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: #6e88a8; margin: 0 0 10px;
+}
+.tst-e-h2 {
+  font-family: 'Newsreader', Georgia, serif; font-style: italic;
+  font-size: clamp(28px, 4vw, 48px); color: #1c3458; margin: 0;
+}
+.tst-e-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.tst-e-item {
+  padding: 36px 32px; border-top: 2px solid #1c3458;
+  display: flex; flex-direction: column; gap: 18px;
+  border-right: 1px solid #b8ccdd;
+}
+.tst-e-item:last-child { border-right: none; }
+.tst-e-stars-row { display: flex; gap: 2px; }
+.tst-e-star { color: #2d6ac4; font-size: 14px; }
+.tst-e-quote {
+  font-family: 'Newsreader', Georgia, serif; font-style: italic;
+  font-size: 17px; line-height: 1.7; color: #1c3458; flex: 1; margin: 0;
+}
+.tst-e-author { display: flex; gap: 14px; align-items: center; }
+.tst-e-initial {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  background: #dbeafe; display: flex; align-items: center; justify-content: center;
+  font-family: 'Newsreader', serif; font-size: 18px; font-style: italic; color: #1c3458;
+}
+.tst-e-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; color: #1c3458; margin-bottom: 2px; }
+.tst-e-role { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; color: #6e88a8; margin: 0; }
+
+/* ─── F : Stade / Tech ──────────────────────────────────────────────────── */
+.tst-f-head { text-align: center; margin-bottom: 48px; }
+.tst-f-rating { font-family: 'Geist Mono', monospace; font-size: 12px; color: #7a8195; margin: 8px 0 0; }
+.tst-f-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tst-f-card {
+  background: #fff; border: 1px solid #e3e7ee; border-radius: 12px;
+  padding: 24px; display: flex; flex-direction: column; gap: 16px;
+}
+.tst-f-meta { display: flex; align-items: center; justify-content: space-between; }
+.tst-f-verified {
+  font-family: 'Geist Mono', monospace; font-size: 10px;
+  color: #0f9a6e; letter-spacing: 0.05em;
+}
+.tst-f-quote { font-size: 14px; color: #3d4458; line-height: 1.65; flex: 1; margin: 0; font-style: normal; }
+.tst-f-author { display: flex; gap: 12px; align-items: center; }
+
+/* ─── G : Vague / Aqua ──────────────────────────────────────────────────── */
+.tst-g-section { background: #e8f4f8; }
+.tst-g-head { text-align: center; margin-bottom: 48px; }
+.tst-g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.tst-g-card {
+  background: #d4ecf4; border: 1.5px solid #7ab8d0;
+  border-radius: 28px; padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.tst-g-stars-row { display: flex; gap: 2px; }
+.tst-g-star { color: #0e92b8; font-size: 14px; }
+.tst-g-quote {
+  font-family: 'DM Sans', sans-serif; font-size: 15px;
+  color: #1c3d5a; line-height: 1.7; flex: 1; margin: 0; font-style: normal;
+}
+.tst-g-author { display: flex; gap: 12px; align-items: center; }
+.tst-g-initial {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: #b8dce8; display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; color: #1c3d5a;
+}
+
+/* ─── H : ABPM / Blue Clean ─────────────────────────────────────────────── */
+.tst-h-head { text-align: center; margin-bottom: 56px; }
+.tst-h-eyebrow {
+  font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; color: #1d62c8; margin: 0 0 10px;
+}
+.tst-h-h2 {
+  font-family: 'Outfit', sans-serif; font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700; color: #0f172a; margin: 0;
+}
+.tst-h-rating {
+  font-family: 'Outfit', sans-serif; font-size: 13px; color: #64748b; margin: 8px 0 0;
+}
+.tst-h-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.tst-h-card {
+  background: #fff; border: 1px solid #dbeafe; border-radius: 16px;
+  padding: 28px 24px; display: flex; flex-direction: column; gap: 16px;
+  box-shadow: 0 2px 12px rgba(29,98,200,.06);
+}
+.tst-h-quote {
+  font-family: 'Outfit', sans-serif; font-size: 15px;
+  color: #334155; line-height: 1.7; flex: 1; margin: 0; font-style: normal;
+}
+.tst-h-author { display: flex; gap: 12px; align-items: center; }
+.tst-h-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: #dbeafe; display: flex; align-items: center; justify-content: center;
+  font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #1d62c8;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tst-a-grid, .tst-e-grid, .tst-f-grid, .tst-g-grid, .tst-h-grid { grid-template-columns: 1fr; }
+  .tst-b-inner { grid-template-columns: 1fr; }
+  .tst-b-left { position: static; flex-direction: row; align-items: flex-end; justify-content: space-between; }
+  .tst-c-grid { columns: 1; }
+  .tst-d-item { grid-template-columns: 40px 1fr; }
+  .tst-e-item { border-right: none; border-bottom: 1px solid #b8ccdd; }
+  .tst-e-item:last-child { border-bottom: none; }
+}
+@media (max-width: 600px) {
+  .tst-head { flex-direction: column; align-items: flex-start; }
+}
+</style>
