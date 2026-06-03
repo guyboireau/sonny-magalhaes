@@ -1,0 +1,77 @@
+---
+import { seo } from '../config/site';
+
+// We duplicate the keywords to ensure the marquee has enough content to scroll seamlessly.
+const keywords = seo.keywords || [
+  'Plomberie', 'Chauffage', 'Dépannage', 'Rénovation', 'Entretien'
+];
+const duplicatedKeywords = [...keywords, ...keywords, ...keywords, ...keywords];
+---
+
+<div class="marquee-container" aria-hidden="true">
+  <div class="marquee-track">
+    {duplicatedKeywords.map((word) => (
+      <div class="marquee-item">
+        <span>{word}</span>
+        <span class="dot">•</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-container {
+    width: 100%;
+    overflow: hidden;
+    background: var(--paper); /* Or any subtle background */
+    border-top: 1px solid var(--lineSoft);
+    border-bottom: 1px solid var(--lineSoft);
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    position: relative;
+    z-index: 10;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 32px;
+    animation: marquee-scroll 40s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--inkSoft);
+  }
+
+  .dot {
+    color: var(--primary);
+    font-size: 18px;
+  }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      /* Translate exactly half of the duplicated track width */
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Accessibility: pause animation if user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+</style>
