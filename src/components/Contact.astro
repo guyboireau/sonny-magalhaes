@@ -161,8 +161,16 @@ form?.addEventListener('submit', async (e) => {
       body: JSON.stringify(Object.fromEntries(new FormData(form))),
     });
     if (res.ok) {
-      form.style.display = 'none';
-      if (successEl) successEl.hidden = false;
+      if (submitBtn) {
+        submitBtn.textContent = 'Demande envoyée ✓';
+        submitBtn.style.backgroundColor = '#16a34a';
+        submitBtn.style.borderColor = '#16a34a';
+        submitBtn.style.color = '#ffffff';
+      }
+      setTimeout(() => {
+        form.style.display = 'none';
+        if (successEl) successEl.hidden = false;
+      }, 1500);
     } else {
       throw new Error('Erreur serveur');
     }
