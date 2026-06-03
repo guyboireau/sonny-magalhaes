@@ -219,10 +219,38 @@ const phoneHref = `tel:${business.phone.replace(/\s/g, '')}`;
 
 <script>
 // Logic for scroll effect
-const headers = document.querySelectorAll('.hdr');
+const headers = document.querySelectorAll('[id^="main-header"]');
 if (headers.length > 0) {
   const onScroll = () => headers.forEach(h => h.classList.toggle('scrolled', window.scrollY > 20));
   window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// Active navigation tracking
+const sections = document.querySelectorAll('section[id], div[id="services"]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+if (sections.length > 0 && navLinks.length > 0) {
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -60% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        let id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => observer.observe(section));
 }
 
 // Burger mobile (variantes A + B)
@@ -299,7 +327,7 @@ if (menuTrigger && overlayNav) {
   transition: color 0.15s;
   white-space: nowrap;
 }
-.nav-link:hover, .nav-link-b:hover { color: var(--ink); }
+.nav-link:hover, .nav-link-b:hover, .nav-link.active, .nav-link-b.active { color: var(--primary); font-weight: 500; }
 
 .hdr-phone {
   display: flex; align-items: center; gap: 6px;
@@ -577,7 +605,7 @@ if (menuTrigger && overlayNav) {
   font-family: 'Outfit', sans-serif; font-size: 0.9375rem; font-weight: 500;
   color: #64748b; text-decoration: none; transition: color 0.2s;
 }
-.hdr-h-nav a:hover { color: #0ea5e9; }
+.hdr-h-nav a:hover, .hdr-h-nav a.active { color: #0ea5e9; font-weight: 600; }
 .hdr-h-cta {
   display: inline-flex; align-items: center; gap: 0.5rem;
   padding: 0.75rem 1.5rem;
